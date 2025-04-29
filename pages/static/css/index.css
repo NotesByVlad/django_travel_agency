@@ -1,0 +1,257 @@
+/* -- -- -- SWIPER -- -- -- */
+@media (max-width: 999999px) {
+    .swiper-container {
+        position: relative;
+        width: 100%;
+        height: 50vh;
+        overflow: visible;
+    }
+    .swiper-wrapper {
+        display: flex;
+        transition: transform 0.5s ease;
+        flex-direction: row;
+        overflow: visible; 
+    }
+    div.swiper-slide {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        width: 100%;
+        margin: 30px 0;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: rgba(100, 100, 100, 0.3);
+        backdrop-filter: blur(2px);
+        box-shadow: -1px 0 8px rgba(0, 0, 0, 0.5);
+        transition: all 0.8s ease;
+    }
+    div.swiper-slide:hover {
+        background-color: rgba(0, 187, 255, 0.5);
+        box-shadow: -1px 0 8px rgba(0, 187, 255, 0.5);
+        backdrop-filter: blur(3px);
+    }
+    .swiper-button-prev, 
+    .swiper-button-next {
+        color: white !important;
+        margin: 10px;
+        background-color: rgba(0,0,0,0.3);
+        backdrop-filter: blur(1px);
+        padding: 30px !important;
+        border-radius: 50%;
+        align-self: flex-start !important;
+        transition: 0.8s ease;
+    }
+    .swiper-button-prev:hover , 
+    .swiper-button-next:hover {
+        border: 1px solid white;
+        background-color: rgba(0, 187, 255, 0.5);
+        backdrop-filter: blur(2px);
+        box-shadow: -1px 0 8px rgba(0,0,0, 0.5);
+    }
+    .swiper-pagination {
+        background-color: rgba(100, 100, 100, 0.3);
+        backdrop-filter: blur(2px);
+        transition: background-color 0.8s ease, box-shadow 0.2s ease, backdrop-filter 0.5s ease;
+        padding: 5px; 
+        display: inline-flex !important;
+        justify-content: center !important;
+        position: absolute !important;
+        bottom: 0 !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        border: 1px white solid;
+        border-radius: 5px;
+        /* z-index: 3;  */
+        width: fit-content !important;
+    }
+    .swiper-pagination-bullet {
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid white;
+        width: 12px !important;
+        height: 12px !important;
+        border-radius: 50%;
+        margin: 0 3px;
+        transition: all 0.3s ease;
+    }
+    .swiper-pagination-bullet-active {
+        background: white;
+    }
+    .swiper-pagination-bullet:hover {
+        background: rgba(255, 255, 255, 0.7);
+        transform: scale(1.2);
+    }
+    /* --- INNER ELEMENTS (titles, images, etc.) --- */
+    .swiper-slide-link {
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    }
+    /* Adjust text elements */
+    .swiper-slide-title, .swiper-slide-dates, .swiper-slide-price {
+        margin: 5px 0;
+        text-align: center;
+        width: 100%;
+    }
+
+    .swiper-slide-image-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+    .swiper-slide-image {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .swiper-button-next, 
+    .swiper-button-prev,
+    .swiper-pagination {
+        z-index: 5 !important; 
+    }
+
+}
+
+
+
+
+
+
+
+
+
+@media (max-width: 9999px) {
+    .trip-section-title {
+        padding: 20px;
+        font-size: 3rem;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    }
+    .trip-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .trip-card {
+        width: 32%;
+        margin-bottom: 20px;
+        position: relative;
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        overflow: hidden;
+
+        background-color: rgba(100, 100, 100, 0.3);
+        backdrop-filter: blur(0.1rem);
+
+
+        box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+    }
+    .trip-card:hover {
+
+        border: 1px solid rgba(61, 166, 204, 0.8);
+        border-radius: 10px;
+        overflow: hidden;
+
+        background-color:rgba(0, 187, 255, 0.8);
+        backdrop-filter: blur(0.1rem);
+
+        box-shadow: 10px 0 10px rgba(255, 255, 255, 1);
+    }
+    
+    .trip-card-link {
+        text-decoration: none;
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        color: inherit;
+    }
+    
+    .trip-title {
+
+        margin: 0;
+        padding: 10px;
+        font-size: 1.5rem;
+        width: 100%;
+
+    }
+    
+    .trip-image-container {
+        position: relative;
+    }
+    
+    .trip-image {
+        width: 99%;
+        height: auto;
+    }
+    
+    .trip-dates {
+        position: absolute;
+        top: 0;
+        left: 1px;
+        display: flex;
+        flex-direction: row;
+
+
+        padding: 10px;
+        align-self: flex-start;
+        padding: 2px;
+        background-color: rgb(0, 187, 255);
+        border-bottom-right-radius: 5px;
+
+
+    }
+
+    
+    .trip-details-right {
+        align-self: flex-end;
+    }
+    
+    .trip-location {
+        text-align: center; /* Center text */
+        
+    }
+    
+    .ticket-price {
+        margin-top: 5px; /* Slight space from image */
+        padding: 10px;
+        font-size: 1.2rem; /* Slightly smaller than title */
+        text-align: center; /* Center text */
+        text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+    }
+}
+
+/* Pagination Desktop */
+@media (max-width: 4000px) { /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 20px 0;
+        gap: 20px;
+    }
+    .page-link {
+        padding: 10px 15px;
+        border: 1px solid #007bff;
+        border-radius: 5px;
+        background-color: white;
+        color: #007bff;
+        text-decoration: none;
+        transition: background-color 0.3s, color 0.3s;
+    }
+    .page-link:hover {
+        background-color: #0056b3; 
+        color: #ffffff; 
+    }
+    .page-link.disabled {
+        background-color: #f0f0f0;
+        color: #aaa; 
+        border: 1px solid #ccc;
+        pointer-events: none; 
+    }
+    .page-info {
+        margin: 0; 
+        font-weight: bold;
+    }
+}
+
+
+

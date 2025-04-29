@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Django Travel{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static '/css/index.css' %}">
+</link>
+
+
+{% include 'trips/promoted_trips.html' %}
+
+
+
+
+{% endblock %}

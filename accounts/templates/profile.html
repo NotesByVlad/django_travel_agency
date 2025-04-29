@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+
+{% block title %}{{ profile_user.username }}'s Page{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+
+
+
+
+<div class="container-presets account-info-container" >
+    
+    <div class="account-info-details">
+        <h2>{{ profile_user.username.title }}'s Page</h2>
+        <p>username</p>
+        <p>age</p>
+        <p>Email: {{ profile_user.email }}</p>
+        <p>mobile:</p>
+        <p>Reset password</p>
+        <p></p>
+    </div>
+
+    <div class="account-info-button-container">
+        <button>edit profile</button>
+        <button>paid bookings</button>
+    </div>
+
+
+
+
+</div>
+
+
+<div class="container-presets account-pending-bookings-container">
+    <h2 class="title1-presets">Pending Bookings</h2>
+
+    {% if bookings %}
+        <div class="booking-container">
+            {% for booking in bookings %}
+                <div class="booking">
+                    <div class="booking-item-trip-title">{{ booking.trip }}</div>
+                    <hr class="divider">
+                    <div class="booking-item">Booking Date: {{ booking.booking_date }}</div>
+                    <div class="booking-item">Meal Plan: {{ booking.get_meal_plan_display }}</div>
+                    <div class="booking-item">Adult Tickets: {{ booking.tickets_adult }}</div>
+                    <div class="booking-item">Child Tickets: {{ booking.tickets_child }}</div>
+                    
+                    {% if booking.wants_flight  %}
+                    <div class="booking-item">Flight Tickets: Yes</div>
+                    <div class="booking-item">From Airport: {{ booking.from_airport }}</div>
+                    <div class="booking-item">Airport Pick Up: {{ booking.wants_airport_pickup }} </div>
+                    <div class="booking-item">Airport Drop Off: {{ booking.wants_airport_dropoff }}</div>
+                    <div class="booking-item">Airport Price: {{ booking.airport_price }}
+                    {% else %}
+                    <div class="booking-item">Flight Tickets: No</div>
+                    {% endif %}
+                    {% if booking.wants_car_rental  %}
+                    <div class="booking-item">Car Rental: {{ booking.wants_car_rental }}</div>
+                    <div class="booking-item">Rental Days: {{ booking.car_rental_days }}</div>
+                    <div class="booking-item">Rental Cost: {{ booking.car_rental_cost }}</div>
+                    {% else %}
+                    <div class="booking-item">Car Rental: No</div>
+                    {% endif %}
+
+                    <div class="booking-item">Booking Price: ${{ booking.booking_price }}</div>
+                    <div class="booking-item">paid: {{ booking.paid }}</div>
+                    <hr class="divider">
+
+
+                    <form action="{% url 'booking_pay' pk=booking.pk %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit">Pay Booking</button>
+                    </form>
+
+                    <a href="{% url 'booking_update' pk=booking.pk %}"><button>Edit Booking</button></a>
+                    <a href="{% url 'booking_delete' pk=booking.pk %}"><button>Delete Booking</button></a>
+
+
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>You have no bookings yet.</p>
+    {% endif %}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

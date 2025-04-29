@@ -1,0 +1,228 @@
+
+@media (max-width: 999999px) {
+    .trip-info-container {
+
+        background-color: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(10px);
+        min-height: auto;
+        border-radius: 10px;
+    }
+
+    .back-button {
+        position: absolute;
+        width: 70px;
+        height: 40px;
+        left: 0;
+        border: none;
+        cursor: pointer;
+        border-top-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        font-size: 1rem;
+    }
+
+    .book-now-button {
+        width: 150px;
+        height: 50px;
+        cursor: pointer;
+        border-radius: 10px;
+        border: none;
+        font-size: 1rem;
+        margin-top: 25px;
+    }
+
+    .trip-details-and-slider {
+        display: flex;  /* Flex container for trip details and slider */
+         /* Space between content */
+        flex-direction: row; /* Align items in a row */
+    }
+    .trip-and-hotel-details {
+        align-items: center;
+        justify-content: center;
+        margin: 10px;
+        flex: 1;
+    }
+
+    .trip-details,
+    .hotel-details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%; 
+        height: auto; 
+        padding: 20px;
+    }
+    .detail-item,
+    .hotel-description {
+        margin: 2px;
+        font-size: 20px;
+    }
+    .hotel-description {
+        padding: 10px;
+    }
+    .hotel-preview {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        /* height: 100%; */
+        width: 50vw;
+        padding: 20px;
+    }
+
+    .hotel-image-slider {
+        position: relative;
+        left:0;
+        height: 50%;
+        width: 100%;
+        max-width: 600px; /* Set maximum width for the slider */
+        overflow: hidden;
+        border-radius: 10px; /* Optional: Add border radius */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Optional: Add shadow */
+    }
+    
+    .slides {
+        display: flex;
+        transition: transform 0.5s ease;
+    }
+    
+    .slide {
+        min-width: 100%;
+        width: 100%;
+        height: 100%; /* For example, 50% of the viewport height */
+        position: relative; /* Make the slide a positioned element */
+    }
+    
+    .slider-image {
+        width: 100%; /* Make image fill the width of its container */
+        height: 100%; /* Make image fill the height of its container */
+        object-fit: cover; /* Scale the image to cover the entire slide */
+        border-radius: 5px; /* Optional: Add border radius to images */
+    }
+    
+    .prev, .next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        color: white; /* White text for contrast */
+        border: none; /* No border */
+        border-radius: 50%; /* Circular buttons */
+        width: 40px; /* Width for button */
+        height: 40px; /* Height for button */
+        font-size: 20px; /* Font size for arrow */
+        cursor: pointer; /* Cursor changes to pointer */
+        transition: background-color 0.3s ease; /* Smooth background change on hover */
+    }
+    
+    .prev:hover, .next:hover {
+        background-color: rgba(0, 0, 0, 0.7); /* Slightly darker on hover */
+    }
+    
+    .prev {
+        left: 10px; /* Position left */
+    }
+    
+    .next {
+        right: 10px; /* Position right */
+    }
+
+    /* Media query for smaller screens */
+    @media (max-width: 1000px) {
+        .trip-details-and-slider {
+            flex-direction: column; /* Stack vertically */
+        }
+
+        .hotel-image-slider {
+            width: 100%; /* Full width for slider */
+        }
+
+        .trip-details, .hotel-details {
+            width: 100%; /* Full width for details */
+        }
+    }
+}
+
+
+
+
+
+
+@media (max-width: 999999px) {
+    .trip-city,
+    .trip-country,
+    .trip-continent {
+        display: flex; /* Use flexbox for layout */
+    
+        align-items: center; /* Vertically center content */
+        background-color: rgba(0, 0, 0, 0.6); /* Black semi-transparent background */
+        backdrop-filter: blur(10px);
+        border-radius: 10px; /* Rounded corners */
+        padding: 10px; /* Padding for spacing */
+        margin: 10px 0; /* Space between sections */
+        color: white; /* Text color */
+        transition: background-color 0.3s; /* Smooth background color transition */
+    }
+
+    .trip-image-container {
+        justify-self: center;
+        flex-shrink: 0; /* Prevent the image container from shrinking */
+        width: 30%; /* Set width proportionally */
+        position: relative; /* Relative positioning for any absolute elements */
+        text-decoration: none; /* Remove default link underline */
+    }
+
+    .trip-image {
+        width: 100%; /* Make image responsive */
+        height: auto; /* Maintain aspect ratio */
+        border-radius: 8px; /* Optional: Rounded corners for images */
+        transition: transform 0.3s; /* Smooth scaling effect */
+    }
+
+    /* New hover effect for the image container */
+    .trip-image-container:hover {
+        border-radius: 10px; /* Keep rounded corners on hover */
+    }
+
+    /* Image scale effect on hover */
+    .trip-image-container:hover .trip-image {
+        transform: scale(1.05); /* Slightly scale the image */
+    }
+    .trip-image-description {
+        padding: 10px;
+        margin: 10px;
+    }
+}
+    /* Responsive Text and Image Adjustments */
+@media (max-width: 768px) {
+    .trip-image-container {
+        width: 40%; /* Adjust width for smaller screens */
+    }
+
+    .trip-image-description {
+        padding-left: 10px; /* Less padding on smaller screens */
+        font-size: 0.9rem; /* Slightly smaller text */
+    }
+
+    .trip-city,
+    .trip-country,
+    .trip-continent {
+        flex-direction: column; /* Stack images and text vertically on very small screens */
+        align-items: flex-start; /* Align to the left */
+    }
+
+    .trip-image-container {
+        width: 100%; /* Full width when stacked */
+        margin-bottom: 10px; /* Spacing below images */
+    }
+    
+    .trip-image {
+        border-radius: 10px; /* Rounded corners for images when stacked */
+    }
+}
+
+
+
+
+
+

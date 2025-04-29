@@ -1,0 +1,136 @@
+<!-- TEMPLATE FORM FOR REGISTER AND LOGIN -->
+
+{% extends "base.html" %}
+{% block title %}{{ form_type|title }}{% endblock %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'accounts/style.css' %}">
+
+
+
+<div class="container-presets accounts-form-container">
+    <h2 class="title1-presets">{{ form_type|title }}</h2>
+
+    <hr style="margin-bottom: 15px;">
+    <form method="post">
+        {% csrf_token %}
+
+        {% if form_type == 'register' %}
+            <!-- Username Field -->
+            <div class="accounts-form-group">
+                <label for="id_username" class="label-presets">Username</label>
+                <input type="text" name="username" class="input-presets" id="id_username" value="{{ form.username.value|default_if_none:'' }}" required autofocus>
+                {% if form.username.errors %}
+                    <div class="errors-presets">
+                        {{ form.username.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Email Field -->
+            <div class="accounts-form-group">
+                <label for="id_email" class="label-presets">Email</label>
+                <input type="email" name="email" class="input-presets" id="id_email" value="{{ form.email.value|default_if_none:'' }}" required>
+                {% if form.email.errors %}
+                    <div class="errors-presets">
+                        {{ form.email.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password1 Field -->
+            <div class="accounts-form-group">
+                <label for="id_password1" class="label-presets">Password</label>
+                <div style="position: relative;">
+                    <input type="password" name="password1" class="input-presets" id="id_password1" required>
+                    <button type="button" onclick="togglePassword('id_password1')" class="show-password-button" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                {% if form.password1.errors %}
+                    <div class="errors-presets">
+                        {{ form.password1.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password2 Field -->
+            <div class="accounts-form-group">
+                <label for="id_password2" class="label-presets">Confirm Password</label>
+                <div style="position: relative;">
+                    <input type="password" name="password2" class="input-presets" id="id_password2" required>
+                    <button type="button" onclick="togglePassword('id_password2')" class="show-password-button" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                {% if form.password2.errors %}
+                    <div class="errors-presets">
+                        {{ form.password2.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+
+        {% elif form_type == 'login' %}
+            <!-- Username Field -->
+            <div class="accounts-form-group">
+                <label for="id_username" class="label-presets">Username</label>
+                <input type="text" name="username" class="input-presets" id="id_username" value="{{ form.username.value|default_if_none:'' }}" required autofocus>
+                {% if form.username.errors %}
+                    <div class="errors-presets">
+                        {{ form.username.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Password Field -->
+            <div class="accounts-form-group">
+                <label for="id_password" class="label-presets">Password</label>
+                <div style="position: relative;">
+                    <input type="password" name="password" id="id_password" class="input-presets" required>
+                    <button type="button" onclick="togglePassword('id_password')" class="show-password-button" aria-label="Toggle password visibility">👁️</button>
+                </div>
+                {% if form.password.errors %}
+                    <div class="errors-presets">
+                        {{ form.password.errors|join:", " }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <div>
+            <button type="submit" class="button-presets accounts-form-submit-button">
+                {% if form_type == 'login' %}
+                    Log In
+                {% else %}
+                    Register
+                {% endif %}
+            </button>
+        </div>
+
+    </form>
+    <hr style="margin-bottom: 15px;">
+
+
+    <div class="accounts-form-footer">
+        {% if form_type == 'login' %}
+            <p>Don't have an account?<br> <a href="{% url 'register' %}">Register here.</a></p>
+        {% else %}
+            <p>Already have an account?<br> <a href="{% url 'login' %}">Log in here.</a></p>
+        {% endif %}
+    </div>
+</div>
+
+
+<script>
+function togglePassword(fieldId) {
+    const input = document.getElementById(fieldId);
+    const button = input.nextElementSibling;
+    if (input.type === "password") {
+        input.type = "text";
+        button.textContent = "👁️‍🗨️"; // change to "eye-slash"
+    } else {
+        input.type = "password";
+        button.textContent = "👁️"; // back to normal eye
+    }
+}
+</script>
+
+
+
+{% endblock %}

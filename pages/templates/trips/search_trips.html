@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Search Trips{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="../../static/css/index.css">
+    <!-- Display filtered trips -->
+    <div class="trip-container" style="display: flex; flex-direction: row;">
+        
+            {% for trip in trips.object_list %}
+            <div class="trip-card">
+                <a href="{% url 'trip_info' pk=trip.pk %}">
+                    <h5 style="font-size: 2rem;" class="card-title">{{ trip }}</h5>
+                    <div class="trip-image-container">
+                        {% if trip.hotel.city.image %}
+                            <img src="{{ trip.hotel.city.image.url }}" alt="City image" class="trip-image">
+                        {% endif %}
+                        <div class="trip-dates">
+                            <span>{{ trip.departure_date }} - </span><span>{{ trip.return_date }}</span>
+                        </div>
+                    </div>
+                    <div class="ticket-price">
+                        Adults from trip.calculate_adult_price: {{ trip.calculate_adult_price|floatformat:0 }}<br>
+                        Children from trip.calculate_child_price: {{ trip.calculate_child_price|floatformat:0 }}<br>
+                        For {{ tickets_adults }} adult tickets: ${{ trip.adult_price|floatformat:0 }}<br>
+                        For {{ tickets_children }} children tickets: ${{ trip.child_price|floatformat:0 }}<br>
+                        Flight Cost: ${{ trip.total_flight_cost|floatformat:0 }}<br>
+                        Combined Total: ${{ trip.total_price|floatformat:0 }}
+                    </div>
+                </a>
+            </div>
+            {% empty %}
+            <div class="trip-card">
+                <p>no trips to match your criteria</p>
+            </div>
+            {% endfor %}
+    </div>    
+            <!-- Pagination Controls -->
+            <div class="pagination">
+                {% if trips.has_previous %}
+                    <a href="?search_page={{ trips.previous_page_number }}&{{ request.GET.urlencode|slice:':-1' }}" class="page-link">Previous</a>
+                {% else %}
+                    <span class="page-link disabled">Previous</span>
+                {% endif %}
+            
+                <span class="page-info">Page {{ trips.number }} of {{ trips.paginator.num_pages }}</span>
+            
+                {% if trips.has_next %}
+                    <a href="?search_page={{ trips.next_page_number }}&{{ request.GET.urlencode|slice:':-1' }}" class="page-link">Next</a>
+                {% else %}
+                    <span class="page-link disabled">Next</span>
+                {% endif %}
+            </div>
+    
+{% endblock %}

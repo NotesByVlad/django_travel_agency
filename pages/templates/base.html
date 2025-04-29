@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    {% load static %}
+    <link rel="icon" type="image/png" href="{% static 'images/favicon/favicon.png' %}">
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+</head>
+<body>
+
+    {% with request.resolver_match.url_name as current_url %}
+    <header class="navigation">
+
+        <a href="{% url 'home' %}" class="nav-branding nav-link {% if current_url == 'home' %}active{% endif %}" id="nav-brand-logo">
+            <img src="/static/images/logo/logo.png" alt="Logo" />
+        </a>
+
+        <nav class="navbar">
+
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="{% url 'home' %}" class="nav-link {% if current_url == 'home' %}active{% endif %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'contact' %}" class="nav-link {% if current_url == 'contact' %}active{% endif %}">Contact</a>
+                </li>
+                {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a href="{% url 'user_profile' username=user.username %}" class="nav-link {% if current_url == 'user_profile' %}active{% endif %}">Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link">Logout</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <a href="{% url 'login' %}" class="nav-link {% if current_url == 'login' %}active{% endif %}">Login</a>
+                </li>
+                {% endif %}
+            </ul>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+    {% endwith %}
+
+
+
+    <div class="search-container">
+        <div class="modal-search-container">
+            <div class="modal-search-form-container">
+
+                <div type="button" class="search-modal-close">
+                    <span class="x-bar"></span>
+                    <span class="x-bar"></span>
+                </div>
+
+
+                <form method="GET" action="{% url 'search_trips' %}" id="modal-search-form">
+                    {% csrf_token %}
+                    <div id="modal-error-message" style="color: red; display: none;"></div>
+
+                    <h1 class="modal-search-title">Search</h1>
+
+                    <h2 style="color: white; margin-top: 20px;">Location</h2>
+                    <div class="modal-search-section">
+                        <!-- Continent Select -->
+                        <label for="{{ trip_search_form.continent.id_for_label }}" class="hidden-label">Continent:</label>
+                        {{ trip_search_form.continent }}
+                        {% if trip_search_form.continent.errors %}
+                            <div class="error">{{ trip_search_form.continent.errors }}</div>
+                        {% endif %}
+                    </div>
+
+
+                    <div class="modal-search-section">
+                        <!-- Country Select -->
+                        <label for="{{ trip_search_form.country.id_for_label }}" class="hidden-label">Country:</label>
+                        {{ trip_search_form.country }}
+                        {% if trip_search_form.country.errors %}
+                            <div class="error">{{ trip_search_form.country.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="modal-search-section">
+                        <!-- City Select -->
+                        <label for="{{ trip_search_form.city.id_for_label }}" class="hidden-label">City:</label>
+                        {{ trip_search_form.city }}
+                        {% if trip_search_form.city.errors %}
+                            <div class="error">{{ trip_search_form.city.errors }}</div>
+                        {% endif %}
+                    </div>
+                            
+                    <h2 style="color: white; margin-top: 20px;">Dates</h2>
+                    <div class="modal-search-section modal-search-section-border">
+                        <!-- Departure Date -->
+                        <label for="{{ trip_search_form.departure_date.id_for_label }}">Departure</label>
+                        {{ trip_search_form.departure_date }}
+                        {% if trip_search_form.departure_date.errors %}
+                            <div class="error">{{ trip_search_form.departure_date.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="modal-search-section modal-search-section-border">
+                        <!-- Return Date -->
+                        <label for="{{ trip_search_form.return_date.id_for_label }}">Return</label>
+                        {{ trip_search_form.return_date }}
+                        {% if trip_search_form.return_date.errors %}
+                            <div class="error">{{ trip_search_form.return_date.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <h2 style="color: white; margin-top: 20px;">Tickets</h2>
+                    <div class="modal-search-section modal-search-section-border">
+                        <!-- Adult Tickets -->
+                        <label for="{{ trip_search_form.tickets_adults.id_for_label }}">Adults</label>
+                        {{ trip_search_form.tickets_adults }}
+                        {% if trip_search_form.tickets_adults.errors %}
+                            <div class="error">{{ trip_search_form.tickets_adults.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="modal-search-section modal-search-section-border">
+                        <!-- Child Tickets -->
+                        <label for="{{ trip_search_form.tickets_children.id_for_label }}">Children</label>
+                        {{ trip_search_form.tickets_children }}
+                        {% if trip_search_form.tickets_children.errors %}
+                            <div class="error">{{ trip_search_form.tickets_children.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <h2 style="color: white; margin-top: 20px;">Flight Tickets</h2>
+                    <div class="modal-search-section modal-search-section-border">
+                        <!-- Wants Flight -->
+                        <label for="{{ trip_search_form.wants_flight.id_for_label }}">Fly with us?</label>
+                        {{ trip_search_form.wants_flight }}
+                        {% if trip_search_form.wants_flight.errors %}
+                            <div class="error">{{ trip_search_form.wants_flight.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="modal-search-section modal-search-section-border">
+                        <!-- From Airport -->
+                        <label for="{{ trip_search_form.from_airport.id_for_label }}">From</label>
+                        {{ trip_search_form.from_airport }}
+                        {% if trip_search_form.from_airport.errors %}
+                            <div class="error">{{ trip_search_form.from_airport.errors }}</div>
+                        {% endif %}
+                    </div>
+                           
+                    <h2 style="color: white; margin-top: 20px;">Budget</h2>
+                    <div class="modal-search-section "> 
+                        <!-- Budget -->
+                        <label for="{{ trip_search_form.budget.id_for_label }}" class="hidden-label">Budget:</label>
+                        {{ trip_search_form.budget }}
+                        {% if trip_search_form.budget.errors %}
+                            <div class="error">{{ trip_search_form.budget.errors }}</div>
+                        {% endif %}
+                    </div>        
+                        
+                    <div class="modal-search-button-container">
+                        <button type="submit" class="modal-search-button">        
+                            <span class="button-text">Search For Trips</span>
+                            <span class="search-button-icon">  <svg  xmlns="http://www.w3.org/2000/svg"
+                                                                width="24px"
+                                                                height="24px"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                stroke-width="2"
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                                class="search-button-icon-svg">
+                                                                <circle cx="11" cy="11" r="8" stroke="white"/>
+                                                                <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="white"/>
+                                                                </svg></span></button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="40px"
+            height="40px"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="search-icon"
+        >
+            <!-- Shadow circle -->
+            <circle cx="11" cy="11" r="8" stroke="black" stroke-opacity="0.3" transform="translate(1,1)"/>
+            <!-- Main circle -->
+            <circle cx="11" cy="11" r="8" stroke="currentColor"/>
+            <!-- Shadow line -->
+            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="black" stroke-opacity="0.3" transform="translate(1.8,1.8)"/>
+            <!-- Main line -->
+            <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="currentColor"/>
+        </svg>
+    </div>
+
+    <!-- ↓↓↓index↓↓↓ -->
+    <main class="content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer>
+        <p>Django Travel 🔍 Agency Website Project 2025</p>
+    </footer>
+
+    <script>
+        const COUNTRIES = JSON.parse('{{ countries_json|escapejs }}');
+        const CONTINENTS = JSON.parse('{{ continents_json|escapejs }}');
+        const CITIES = JSON.parse('{{ cities_json|escapejs }}');
+    </script>
+    <script src="{% static 'js/base.js' %}"></script>
+</body>
+</html>

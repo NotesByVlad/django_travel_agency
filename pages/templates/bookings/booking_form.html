@@ -1,0 +1,378 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Create Booking{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/booking_form.css' %}">
+</link>
+
+<div class="booking-form-container">
+
+    <h1>Hey {{ user.username.title }}, Going to {{ trip.hotel }},<br>{{ trip.city }}, {{ trip.city.country }}?</h1>
+    <div class="booking-form">
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="booking-form-group">
+                <input type="hidden" name="trip" value="{{ trip.pk }}">
+                {{ form.trip }}
+            </div>
+        
+            <div class="booking-form-group">
+                {{ form.meal_plan.label_tag }}<br>
+                {{ form.meal_plan }}
+                {% if form.meal_plan.errors %}
+                    <div class="text-danger">{{ form.meal_plan.errors }}</div>
+                {% endif %}
+            
+                {% with meal_plan_prices as prices %}
+                <p><strong>Meal Plan Prices:</strong></p>
+                <ul>
+                    <li>None: ${{ prices.None }}</li>
+                    <li>Bed & Breakfast: ${{ prices.BB }}</li>
+                    <li>Half Board: ${{ prices.HB }}</li>
+                    <li>Full Board: ${{ prices.FB }}</li>
+                    <li>All Inclusive: ${{ prices.AI }}</li>
+                </ul>
+                {% endwith %}
+
+            <div class="booking-form-group">
+                {{ form.tickets_adult.label_tag }}<br>
+                {{ form.tickets_adult }}
+                {% if form.tickets_adult.errors %}
+                <div class="text-danger">{{ form.tickets_adult.errors }}</div>
+                {% endif %}
+            </div>
+        
+            <div class="booking-form-group">
+                {{ form.tickets_child.label_tag }}<br>
+                {{ form.tickets_child }}
+                {% if form.tickets_child.errors %}
+                <div class="text-danger">{{ form.tickets_child.errors }}</div>
+                {% endif %}
+            </div>
+            
+            <div class="booking-form-group">
+                {{ form.wants_flight.label_tag }}<br>
+                {{ form.wants_flight }}
+            </div>
+        
+            <div class="booking-form-group" id="booking-from-airport-group" style="display:none;">
+                {{ form.from_airport.label_tag }}<br>
+                {{ form.from_airport }}
+                {% if form.from_airport.errors %}
+                <div class="text-danger">{{ form.from_airport.errors }}</div>
+                {% endif %}
+            </div>
+        
+            <div class="booking-form-group" id="booking-pickup-group" style="display:none;">
+                {{ form.wants_airport_pickup.label_tag }}<br>
+                {{ form.wants_airport_pickup }}
+                {% if form.wants_airport_pickup.errors %}
+                <div class="text-danger">{{ form.wants_airport_pickup.errors }}</div>
+                {% endif %}
+            </div>
+        
+            <div class="booking-form-group" id="booking-dropoff-group" style="display:none;">
+                {{ form.wants_airport_dropoff.label_tag }}<br>
+                {{ form.wants_airport_dropoff }}
+                {% if form.wants_airport_dropoff.errors %}
+                <div class="text-danger">{{ form.wants_airport_dropoff.errors }}</div>
+                {% endif %}
+            </div>
+        
+            <div class="booking-form-group">
+                {{ form.wants_car_rental.label_tag }}<br>
+                {{ form.wants_car_rental }}
+                {% if form.wants_car_rental.errors %}
+                <div class="text-danger">{{ form.wants_car_rental.errors }}</div>
+                {% endif %}
+            </div>
+        
+            <div class="booking-form-group" id="booking-rent-days-group" style="display:none;">
+                {{ form.car_rental_days.label_tag }}<br>
+                {{ form.car_rental_days }}
+                {% if form.car_rental_days.errors %}
+                <div class="text-danger">{{ form.car_rental_days.errors }}</div>
+                {% endif %}
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            
+            <div>
+                <span id="total-price">0.00</span>
+                
+                <!-- -- -- -- for javascript -- -- -- -->
+                <div id="booking-pricing-data"
+                    data-duration="{{ trip_duration }}"
+                    data-adult-unit-price="{{ adult_unit_price }}"
+                    data-child-unit-price="{{ child_unit_price }}"
+                    data-meal-bb="{{ meal_plan_prices.BB }}"
+                    data-meal-hb="{{ meal_plan_prices.HB }}"
+                    data-meal-fb="{{ meal_plan_prices.FB }}"
+                    data-meal-ai="{{ meal_plan_prices.AI }}"
+                    data-meal-none="{{ meal_plan_prices.None }}"
+                    data-car-rental-cost="{{ city_car_rental_cost }}"
+                    data-airport-pickup="{{ airport_pickup_cost }}"
+                    data-airport-dropoff="{{ airport_dropoff_cost }}"
+                    data-to-country="{{ to_country }}"
+                    data-to-continent="{{ to_continent }}"
+                    >
+                </div>
+                
+            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <button type="submit" class="save-booking-button">Save Booking</button>
+
+            <h1>Prices for this trip</h1>
+            <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+
+                
+                <div>
+                    <p>Breakfast & Bed<br>
+                    {{ trip.hotel.bb_price }}</p>
+                    <p>Half Board<br>
+                    {{ trip.hotel.hb_price }}</p>
+                    <p>Full Board<br>
+                    {{ trip.hotel.fb_price }}</p>
+                    <p>All Inclusive<br>
+                    {{ trip.hotel.ai_price }}</p>
+                </div>
+                                
+                <div>
+                    <p>adult price<br>
+                    {{ trip.calculate_adult_price|floatformat:0 }}</p>
+                    <p>child price<br>
+                    {{ trip.calculate_child_price|floatformat:0 }}</p>
+                    <p>car rental cost per day<br>
+                    {{ trip.hotel.city.car_rental_cost }}</p>
+
+                    <p>Flight cost differs from airport to airport</p>
+
+                </div>
+                                            
+            </div>
+
+
+
+        </form>
+    </div>
+</div>
+
+
+
+
+<!-- Javascript -->
+<!-- JSON data for airports -->
+
+    {{ airport_data|json_script:"airport-json" }}
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    // === FLIGHT FIELD TOGGLES ===
+    const wantsFlightCheckbox = document.querySelector('#id_booking_wants_flight');
+    const fromAirportSelect = document.querySelector('#id_booking_from_airport');
+    const pickupCheckbox = document.querySelector('#id_booking_airport_pickup');
+    const dropoffCheckbox = document.querySelector('#id_booking_airport_dropoff');
+    const fromAirportGroup = document.getElementById('booking-from-airport-group');
+    const pickupGroup = document.getElementById('booking-pickup-group');
+    const dropoffGroup = document.getElementById('booking-dropoff-group');
+
+    function toggleFlightFields() {
+        const isChecked = wantsFlightCheckbox.checked;
+        fromAirportGroup.style.display = isChecked ? 'block' : 'none';
+        pickupGroup.style.display = isChecked ? 'block' : 'none';
+        dropoffGroup.style.display = isChecked ? 'block' : 'none';
+
+        const airportSelected = fromAirportSelect.value !== '';
+        const enableAirportOptions = isChecked && airportSelected;
+        pickupCheckbox.disabled = !enableAirportOptions;
+        dropoffCheckbox.disabled = !enableAirportOptions;
+    }
+
+    // === CAR RENTAL FIELD TOGGLES ===
+    const wantsCarRentalCheckbox = document.querySelector('#id_booking_car_rental');
+    const rentDaysGroup = document.getElementById('booking-rent-days-group');
+
+    function toggleRentalFields() {
+        rentDaysGroup.style.display = wantsCarRentalCheckbox.checked ? 'block' : 'none';
+    }
+
+    // === INITIALIZE TOGGLES ===
+    wantsFlightCheckbox?.addEventListener('change', toggleFlightFields);
+    fromAirportSelect?.addEventListener('change', toggleFlightFields);
+    toggleFlightFields();
+
+    wantsCarRentalCheckbox?.addEventListener('change', toggleRentalFields);
+    toggleRentalFields();
+
+    // === DYNAMIC PRICE CALCULATION ===
+    const totalPriceSpan = document.getElementById('total-price');
+    const pricingData = document.getElementById('booking-pricing-data');
+
+    const adultTicketsInput = document.getElementById('id_booking_tickets_adult');
+    const childTicketsInput = document.getElementById('id_booking_tickets_child');
+    const mealPlanSelect = document.getElementById('id_booking_meal_plan');
+    const carRentalDaysInput = document.getElementById('id_booking_car_rental_days');
+
+    const adultUnitPrice = parseFloat(pricingData?.dataset.adultUnitPrice) || 0;
+    const childUnitPrice = parseFloat(pricingData?.dataset.childUnitPrice) || 0;
+    const duration = parseInt(pricingData?.dataset.duration) || 1;
+
+    const mealPrices = {
+        None: parseFloat(pricingData?.dataset.mealNone) || 0,
+        BB: parseFloat(pricingData?.dataset.mealBb) || 0,
+        HB: parseFloat(pricingData?.dataset.mealHb) || 0,
+        FB: parseFloat(pricingData?.dataset.mealFb) || 0,
+        AI: parseFloat(pricingData?.dataset.mealAi) || 0
+    };
+
+    const carRentalPerDay = parseFloat(pricingData?.dataset.carRentalCost) || 0;
+    const airportPickupCost = parseFloat(pricingData?.dataset.airportPickup) || 0;
+    const airportDropoffCost = parseFloat(pricingData?.dataset.airportDropoff) || 0;
+    const toCountry = pricingData?.dataset.toCountry || '';
+    const toContinent = pricingData?.dataset.toContinent || '';
+
+    // === Load airport data from JSON tag ===
+    const airportJsonTag = document.getElementById('airport-json');
+    const airportData = JSON.parse(document.getElementById('airport-json').textContent);
+
+    function calculateFlightCost() {
+        const airportId = fromAirportSelect.value;
+        if (!airportId || !airportData[airportId]) return 0;
+
+        const airport = airportData[airportId];
+        const fromCountry = airport.country;
+        const fromContinent = airport.continent;
+        const baseTicket = airport.standard_ticket;
+
+        if (fromContinent !== toContinent) {
+            return baseTicket * 1.5;
+        } else if (fromCountry !== toCountry) {
+            return baseTicket * 1.3;
+        } else {
+            return baseTicket;
+        }
+    }
+
+    function updatePrice() {
+        const adultTickets = parseInt(adultTicketsInput?.value) || 0;
+        const childTickets = parseInt(childTicketsInput?.value) || 0;
+        const totalTickets = adultTickets + childTickets;
+
+        const selectedMealPlan = mealPlanSelect?.value || 'None';
+        const mealPricePerPerson = mealPrices[selectedMealPlan] || 0;
+
+        const wantsCarRental = wantsCarRentalCheckbox?.checked;
+        const rentalDays = parseInt(carRentalDaysInput?.value) || 0;
+        const rentalTotal = wantsCarRental ? rentalDays * carRentalPerDay : 0;
+
+        const ticketTotal = (adultTickets * adultUnitPrice) + (childTickets * childUnitPrice);
+        const mealTotal = totalTickets * mealPricePerPerson * duration;
+
+        const wantsFlight = wantsFlightCheckbox?.checked;
+        const fromAirportSelected = fromAirportSelect?.value !== '';
+        const wantsPickup = pickupCheckbox?.checked;
+        const wantsDropoff = dropoffCheckbox?.checked;
+
+        let airportServiceTotal = 0;
+        if (wantsFlight && fromAirportSelected) {
+            if (wantsPickup) {
+                airportServiceTotal += airportPickupCost;
+            }
+            if (wantsDropoff) {
+                airportServiceTotal += airportDropoffCost;
+            }
+        }
+
+        let flightTotal = 0;
+        if (wantsFlight && fromAirportSelected) {
+            flightTotal = calculateFlightCost() * totalTickets;
+        }
+
+        const total = ticketTotal + mealTotal + rentalTotal + airportServiceTotal + flightTotal;
+        console.log({
+        ticketTotal,
+        mealTotal,
+        rentalTotal,
+        airportServiceTotal,
+        flightTotal,
+        total
+        });
+        totalPriceSpan.textContent = total.toFixed(2);
+    }
+
+    // === HOOK UP PRICE EVENTS ===
+    adultTicketsInput?.addEventListener('input', updatePrice);
+    childTicketsInput?.addEventListener('input', updatePrice);
+    mealPlanSelect?.addEventListener('change', updatePrice);
+    wantsCarRentalCheckbox?.addEventListener('change', updatePrice);
+    carRentalDaysInput?.addEventListener('input', updatePrice);
+
+    wantsFlightCheckbox?.addEventListener('change', updatePrice);
+    fromAirportSelect?.addEventListener('change', updatePrice);
+    pickupCheckbox?.addEventListener('change', updatePrice);
+    dropoffCheckbox?.addEventListener('change', updatePrice);
+
+    // === INITIAL PRICE ===
+    updatePrice();
+});
+</script>
+{% endblock %}
