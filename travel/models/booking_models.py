@@ -38,6 +38,7 @@ class Booking(models.Model):
     wants_airport_pickup = models.BooleanField(default=False, help_text='Pick up from airport?')
     wants_airport_dropoff = models.BooleanField(default=False, help_text='Drop off at airport?')
 
+    airplane_price = models.IntegerField(default=0, help_text='Plane Tickets cost')
     airport_price = models.IntegerField(default=0, help_text='Total cost of airport services')
 
     wants_car_rental = models.BooleanField(default=False, help_text='Include car rental?')
@@ -81,7 +82,6 @@ class Booking(models.Model):
         to_airport = self.trip.airport # destination of trip
         from_airport = self.from_airport # selected by user
 
-
         if self.wants_flight and from_airport:
 
             from_country = from_airport.city.country
@@ -90,9 +90,6 @@ class Booking(models.Model):
             to_country = to_airport.city.country
             to_continent = to_country.continent
 
-            # plane_ticket_cost = to_airport.calculate_plane_ticket_cost(
-            #     from_country,from_continent,to_country,to_continent
-            # ) 
             plane_ticket_cost = calculate_plane_ticket_cost(
                 to_airport.standard_plane_ticket,
                 from_country, from_continent,
@@ -100,6 +97,7 @@ class Booking(models.Model):
             )
 
             cost += plane_ticket_cost * self.total_tickets()
+            
 
             if self.wants_airport_pickup:
                 cost += to_airport.airport_pick_up_cost * self.total_tickets()
@@ -172,6 +170,14 @@ class Booking(models.Model):
 
         if not self.pk:
             self.add_tickets()
+        else:
+            old = Booking.objects.get(pk=self.pk)
+            old_tickets = old.total_tickets()
+            new_tickets = self.total_tickets()
+            difference = new_tickets - old_tickets
+
+            self.trip.tickets -= difference
+            self.trip.save()
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
@@ -189,10 +195,5 @@ class Booking(models.Model):
 
     ##### TO BE CONTINUED ###################
 
-
-
 #   BOOKING CANNOT BE CREATED BY SAME USER IF ANOTHER BOOKING HAS SAME DATES
 #   BUT CAN CREATE BOOKINGS IF DATES ARE DIFFERENT
-
-# helper function
-# get dates from trips

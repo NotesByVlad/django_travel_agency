@@ -1,0 +1,156 @@
+@media (max-width: 99999999px) {
+    /* -- -- -- SWIPER -- -- -- */
+    @media (max-width: 999999px) {
+        .section-for-swiper {
+            margin-top: 60px;
+            margin-bottom: 120px;
+        }
+        .swiper-container {
+            position: relative;
+            width: 100%;
+            height: 60%;
+            overflow: visible;
+        }
+        .swiper-wrapper {
+            display: flex;
+            transition: transform 0.5s ease;
+            flex-direction: row;
+            overflow: visible; 
+        }
+        div.swiper-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: auto;
+            width: 100%;
+            margin: 30px 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55), 
+                        background-color 0.8s ease, 
+                        box-shadow 0.8s ease, 
+                        backdrop-filter 0.8s ease;
+        }
+        div.swiper-slide:hover {
+            background-color: rgba(0, 187, 255, 0.5);
+            box-shadow: var(--box-shadow-light-blue);
+            backdrop-filter: blur(3px);
+            transform: translateY(-30px);
+        }
+        .swiper-button-prev, 
+        .swiper-button-next {
+            color: white !important;
+            margin: 10px;
+            background-color: rgba(0,0,0,0.3);
+            backdrop-filter: blur(1px);
+            padding: 30px !important;
+            border-radius: 50%;
+            align-self: flex-start !important;
+            transition: 0.8s ease;
+        }
+        .swiper-button-prev:hover , 
+        .swiper-button-next:hover {
+            border: 1px solid white;
+            background-color: rgba(0, 187, 255, 0.5);
+            backdrop-filter: blur(2px);
+            box-shadow: -1px 0 8px rgba(0,0,0, 0.5);
+        }
+        .swiper-pagination {
+            background-color: rgba(100, 100, 100, 0.3);
+            backdrop-filter: blur(2px);
+            transition: background-color 0.8s ease, box-shadow 0.2s ease, backdrop-filter 0.5s ease;
+            padding: 5px; 
+            display: inline-flex !important;
+            justify-content: center !important;
+            position: absolute !important;
+            bottom: 0 !important;
+            left: 50% !important;
+            transform: translateX(-50%) !important;
+            border: 1px white solid;
+            border-radius: 5px;
+            /* z-index: 3;  */
+            width: fit-content !important;
+        }
+        .swiper-pagination-bullet {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid white;
+            width: 12px !important;
+            height: 12px !important;
+            border-radius: 50%;
+            margin: 0 3px;
+            transition: all 0.3s ease;
+        }
+        .swiper-pagination-bullet-active {
+            background: white;
+        }
+        .swiper-pagination-bullet:hover {
+            background: rgba(255, 255, 255, 0.7);
+            transform: scale(1.2);
+        }
+        /* --- INNER ELEMENTS (titles, images, etc.) --- */
+        .swiper-slide-link {
+            text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+        }
+        /* Adjust text elements */
+        .swiper-slide-title, .swiper-slide-dates, .swiper-slide-price {
+            margin: 5px 0;
+            text-align: center;
+            width: 100%;
+            text-shadow: var(--text-shadow-crisp-black);
+
+        }
+        .swiper-slide-title {
+            font-size: 30px;
+        }
+        .swiper-slide-dates,
+        .swiper-slide-price {
+            
+            font-size: 20px;
+        }
+        .swiper-slide-image-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        .swiper-slide-image {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .swiper-button-next, 
+        .swiper-button-prev,
+        .swiper-pagination {
+            z-index: 5 !important; 
+        }
+
+        .swiper-filter-selector {
+            width: 200px;
+            height: 40px;
+            padding: 5px;
+            font-size: 20px;
+            border-radius: 10px;
+            cursor:pointer;
+
+            color: var(--text-color);
+            border: none;
+            background-color: var(--dark-blue);
+            margin-bottom: 20px;
+        }
+
+        .swiper-filter-selector:hover {
+            box-shadow: var(--box-shadow-dark-blue-surround);
+        }
+        .swiper-filter-selector:focus {
+            background-color: var(--light-blue);
+            box-shadow: var(--box-shadow-light-blue-surround);
+            outline: none;
+            /* cursor: pointer; */
+        }
+        .swiper-filter-selector option:hover {
+            background-color: var(--dark-blue);
+            color: var(--text-color);
+        }
+
+    }
+}

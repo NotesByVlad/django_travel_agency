@@ -7,21 +7,21 @@ from decimal import Decimal
 from logging import getLogger
 LOGGER = getLogger
 from django.core.paginator import Paginator
-
+from travel.services.airport_services import calculate_plane_ticket_cost
 
 class TripInfoView(DetailView):
     model = Trip
-    template_name = 'trips/trip_info.html'  # The template for displaying the trip details
+    template_name = 'trips/trip_info.html'
     context_object_name = 'trip'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        hotel = self.object.hotel  # Access the hotel from the trip
-        context['images'] = hotel.images.all()  # Get all images related to the hotel
+        hotel = self.object.hotel
+
+        context['images'] = hotel.images.all()
+        context['stars'] = range(hotel.stars)
         return context
 
-########################################################################
-from travel.services.airport_services import calculate_plane_ticket_cost
 ########################################################################
 
 class TripSearchView(View):
@@ -70,7 +70,7 @@ class TripSearchView(View):
                     trips = trips.filter(return_date__lte=return_date)
                 else:
                     # Optional: Add a message for user or ignore return_date filter
-                    return render(request, 'search_trips.html', {
+                    return render(request, 'trip_search.html', {
                         'form': form,
                         'trips': [],
                         'error': 'Return date must be after or equal to departure date.'
@@ -82,12 +82,11 @@ class TripSearchView(View):
 
 
             if wants_flight == 'yes' and not from_airport and budget:
-                return render(request, 'search_trips.html', {
+                return render(request, 'trip_search.html', {
                     'form': form,
                     'trips': [],
                     'error': 'Please select a departure airport to calculate accurate flight costs for your budget.'
                 })
-
         filtered_trips = []
 
         for trip in trips:
@@ -99,12 +98,6 @@ class TripSearchView(View):
 
                 total_flight_cost = 0
                 if wants_flight == 'yes' and from_airport and trip.airport:
-                    # flight_cost = Decimal(trip.airport.calculate_plane_ticket_cost(
-                    #     from_country=from_airport.city.country,
-                    #     from_continent=from_airport.city.country.continent,
-                    #     to_country=trip.hotel.city.country,
-                    #     to_continent=trip.hotel.city.country.continent,
-                    # ))
                     flight_cost = Decimal(calculate_plane_ticket_cost(
                     trip.airport.standard_plane_ticket,
                     from_country=from_airport.city.country,
@@ -112,10 +105,6 @@ class TripSearchView(View):
                     to_country=trip.hotel.city.country,
                     to_continent=trip.hotel.city.country.continent,
                     ))
-
-
-
-
 
                     total_flight_cost = flight_cost * (tickets_adults + tickets_children)
                     total_price += total_flight_cost
@@ -135,9 +124,10 @@ class TripSearchView(View):
         page_number = request.GET.get('search_page')
         page_obj = paginator.get_page(page_number)    
 
-        return render(request, 'trips/search_trips.html', {
+        return render(request, 'trips/trip_search.html', {
             'form': form,
             'trips': page_obj,
-            'tickets_adults': tickets_adults,  # Pass the number of adult tickets
-            'tickets_children': tickets_children,  # Pass the number of child tickets
+            'tickets_adults': tickets_adults,
+            'tickets_children': tickets_children,
+            'budget': budget,
         })

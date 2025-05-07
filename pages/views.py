@@ -1,14 +1,7 @@
-from travel.models import Trip, Continent, Country, City
-from django.views.generic import TemplateView
-
+from travel.models import Trip, Continent, Country
 from django.utils import timezone
 from django.views.generic import ListView
 from datetime import timedelta
-
-
-from django.utils import timezone
-from datetime import timedelta
-from django.views.generic import ListView
 
 class HomeView(ListView):
     template_name = 'index.html'
@@ -82,32 +75,3 @@ class HomeView(ListView):
         })
 
         return context
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class ContactView(TemplateView):
-    template_name = 'contact/contact.html'

@@ -1,4 +1,4 @@
-/* --- LOGIN // REGISTER FORM --- */
+/* --- </LOGIN & REGISTER FORM PAGE> --- */
 @media (max-width: 999999px) {   
     .accounts-form-container {
         max-width: 400px;
@@ -8,11 +8,7 @@
     .accounts-form-group {
         margin-bottom: 1.5rem;
     }
-    .accounts-form-submit-button {
-        margin-bottom: 1.5rem;
-        padding: 0.7rem 1.5rem;
-        font-size: 1rem;
-    }
+
     .accounts-form-footer {
         margin-top: 1rem;
         text-align: center;
@@ -36,88 +32,182 @@
         border: none; 
         cursor: pointer;
     }
-}
+}/* --- </LOGIN & REGISTER FORM PAGE> --- */
 
 
 
 
 
 
-
-
-
-
+/* --- </ACCOUNT-INFO> --- */
 @media (max-width: 9999999px) {
     .account-info-container {
         display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        height: auto;
-        width: 100%;
-        margin: 30px 0;
-        padding: 40px;
-        position: relative;
-        overflow: hidden;
-        transition: all 0.8s ease;
-        gap: 50px;
+        flex-direction: column;
+        text-shadow: var(--text-shadow-crisp-black);
     }
-
-
+    .account-info-profile-picture {
+        background: var(--profile-image) no-repeat center center;
+        background-size: cover; /* Or try 'cover' if you prefer it filled */
+        width: 250px;
+        height: 250px;
+        border: 1px solid var(--text-color);
+        border-radius: 50%;
+        overflow: hidden;
+        aspect-ratio: 1 / 1;
+        justify-self: center;
+        align-self: center;
+    }
     .account-info-button-container {
         display: flex;
+        flex-direction: row;
+    }
+
+    .account-info-profile-and-history {
+        display: flex; /* Make the container a flex container */
+        width: calc(100% - 60px); /* Account for the 30px left and right margin */
+        margin: 30px auto; /* Center the container horizontally and add top/bottom margin */
+    }
+
+    .profile-info-container {
+        padding: 10px;
+        flex-basis: 50%; /* Give profile-info 50% width */
+        flex-shrink: 0; /* Prevent profile-info from shrinking */
+        margin: 30px 15px 30px 0; /* Top 30, Right 15, Bottom 30, Left 0 */
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+    }
+
+    .account-info-booking-history-container {
+        padding: 10px;
+        flex-grow: 1; /* Allow the booking history to take up remaining space */
+        flex-basis: 50%; /* Give booking history 50% width */
+        max-height: 500px; /* Set a maximum height for the scrollbar */
+         /* Add vertical scrollbar when content overflows */
+        margin: 30px 0 30px 15px; /* Top 30, Right 0, Bottom 30, Left 15 */
+        box-sizing: border-box; /* Include padding and border in the element's total width */
+    }
+
+    .account-info-booking-history {
+        border: 1px solid white;
+        display: flex;
         flex-direction: column;
+        justify-content: space-between;
+        overflow-y: auto;
+        max-height: 500px;
+    }
+
+    .account-booking-history-booking-and-invoice {
+        display: flex; 
+        flex-direction: row;
+        margin: 5px;
+        /* justify-content: center; */
+        /* align-items: center; */
+    }
+    
+    .account-booking-history-booking-card,
+    .account-booking-history-invoice-card {
+        padding: 10px;
+        text-align: justify;
+    }
+
+
+}/* --- </ACCOUNT-INFO> --- */
+
+
+
+
+
+/* --- <PENDING BOOKINGS> --- */
+@media (max-width: 99999999px) {
+    .account-info-booking-container {
+        justify-self: center;
+        padding: 20px;
+        text-shadow: var(--text-shadow-black);
+    }
+    .account-info-booking {
+        font-size: 25px;
+        text-shadow: var(--text-shadow-crisp-black);
+    }
+    .account-info-booking-title {
+        align-self: center;
+        justify-self: center;
+        margin-top: 20px;
+        font-size: 35px;
+        text-align: justify;
+        text-shadow: var(--text-shadow-layered-black);
+    }
+    .account-info-booking-title2 {
+        font-size: 30px;
+        color: var(--light-blue);
+        text-shadow: var(--text-shadow-layered-black);
+    }
+    .account-info-booking-item {
+        margin: 0 20px;
+        padding: 5px;
         
     }
-    .account-info-button-container button {
-        margin: 20px;
+    .account-info-price-item {
+        margin-left: 10px;
+        color: var(--light-blue);
+
+        font-weight: bold;
+        /* text-align: left; */
+        text-shadow: var(--text-shadow-crisp-black);
+    }
+    .account-info-booking-pay-button {
+        box-shadow: 0 0 10px var(--light-blue);
+        font-size: 25px;
+    }
+    .account-info-booking-pay-button:hover {
+        box-shadow: 0 0 10px var(--dark-blue);
+    }
+    .account-info-booking-edit-button {
+        font-size: 25px;
+    }
+    .account-info-booking-edit-button:hover {
+        box-shadow: 0 0 10px var(--dark-blue);
     }
 
+    .account-info-booking-delete-button {
+        background-color: var(--black);
+        font-size: 25px;
+    }
+    .account-info-booking-delete-button:hover {
+        background-color: var(--red);
+        box-shadow: 0 0 8px var(--red);
+    }
 
-    .account-pending-bookings-container {
-        width: 55%;
-        top: 0;
-        left: 0;
+    .account-info-booking-total-price {
+        padding: 10px;
+        color: var(--light-blue);
+        text-shadow: var(--text-shadow-layered-black);
+        font-size: 35px;
     }
-    .account-pending-bookings-title {
-        margin-bottom: 10px;
-        padding: 20px;
-        font-size: 2rem;
-    }
-    .booking-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: center;
-        height: auto;
-        width: 100%;
-        margin: 30px 0;
-        padding: 40px;
+    .custom-message {
+        border: 1px solid var(--dark-blue);
+        border-radius: 5px;
+        background-color: var(--light-blue);
+        color: var(--dark-blue);
+        font-size: 25px;
+        box-shadow: var(--box-shadow-light-blue-surround);
+        padding: 1em;
+        margin-bottom: 1em;
         position: relative;
-
-        overflow: hidden;
-
-        transition: all 0.8s ease;
-        gap: 50px;
-
-
-
     }
-    .booking-container * {
-        font-size: 20px;
-    }
-    .booking-item-trip-title {
-        font-size: 2rem;
-    }
-    .divider {
-        margin-bottom: 20px;
-    }
-    .booking-container button {
-        padding: 5px;
+
+    .dismiss-btn {
+        background-color: var(--dark-blue);
+        color: var(--text-color);
         border: none;
-        border-radius: 2.5px;
+        border-radius: 5px;
+        padding: 0.5em 1em;
+        font-size: 16px;
         cursor: pointer;
+        margin-top: 20px;
     }
-}
-
-
+    .dismiss-btn:hover {
+        background-color: var(--light-blue);
+        border: 1px solid var(--dark-blue);
+        box-shadow: var(--box-shadow-light-blue-surround);
+    }
+}/* --- </PENDING BOOKINGS> --- */

@@ -7,7 +7,7 @@
 
     {% load static %}
     <link rel="icon" type="image/png" href="{% static 'images/favicon/favicon.png' %}">
-    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
@@ -50,8 +50,6 @@
     </header>
     {% endwith %}
 
-
-
     <div class="search-container">
         <div class="modal-search-container">
             <div class="modal-search-form-container">
@@ -62,7 +60,7 @@
                 </div>
 
 
-                <form method="GET" action="{% url 'search_trips' %}" id="modal-search-form">
+                <form method="GET" action="{% url 'trip_search' %}" id="modal-search-form">
                     {% csrf_token %}
                     <div id="modal-error-message" style="color: red; display: none;"></div>
 
@@ -98,7 +96,7 @@
                     </div>
                             
                     <h2 style="color: white; margin-top: 20px;">Dates</h2>
-                    <div class="modal-search-section modal-search-section-border">
+                    <div class="modal-search-section inner-container-presets">
                         <!-- Departure Date -->
                         <label for="{{ trip_search_form.departure_date.id_for_label }}">Departure</label>
                         {{ trip_search_form.departure_date }}
@@ -107,7 +105,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="modal-search-section modal-search-section-border">
+                    <div class="modal-search-section inner-container-presets">
                         <!-- Return Date -->
                         <label for="{{ trip_search_form.return_date.id_for_label }}">Return</label>
                         {{ trip_search_form.return_date }}
@@ -117,7 +115,7 @@
                     </div>
 
                     <h2 style="color: white; margin-top: 20px;">Tickets</h2>
-                    <div class="modal-search-section modal-search-section-border">
+                    <div class="modal-search-section inner-container-presets">
                         <!-- Adult Tickets -->
                         <label for="{{ trip_search_form.tickets_adults.id_for_label }}">Adults</label>
                         {{ trip_search_form.tickets_adults }}
@@ -126,7 +124,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="modal-search-section modal-search-section-border">
+                    <div class="modal-search-section inner-container-presets">
                         <!-- Child Tickets -->
                         <label for="{{ trip_search_form.tickets_children.id_for_label }}">Children</label>
                         {{ trip_search_form.tickets_children }}
@@ -136,7 +134,7 @@
                     </div>
 
                     <h2 style="color: white; margin-top: 20px;">Flight Tickets</h2>
-                    <div class="modal-search-section modal-search-section-border">
+                    <div class="modal-search-section inner-container-presets">
                         <!-- Wants Flight -->
                         <label for="{{ trip_search_form.wants_flight.id_for_label }}">Fly with us?</label>
                         {{ trip_search_form.wants_flight }}
@@ -145,7 +143,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="modal-search-section modal-search-section-border">
+                    <div class="modal-search-section inner-container-presets">
                         <!-- From Airport -->
                         <label for="{{ trip_search_form.from_airport.id_for_label }}">From</label>
                         {{ trip_search_form.from_airport }}
@@ -165,7 +163,7 @@
                     </div>        
                         
                     <div class="modal-search-button-container">
-                        <button type="submit" class="modal-search-button">        
+                        <button type="submit" class="button-presets modal-search-button">        
                             <span class="button-text">Search For Trips</span>
                             <span class="search-button-icon">  <svg  xmlns="http://www.w3.org/2000/svg"
                                                                 width="24px"
@@ -223,6 +221,6 @@
         const CONTINENTS = JSON.parse('{{ continents_json|escapejs }}');
         const CITIES = JSON.parse('{{ cities_json|escapejs }}');
     </script>
-    <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'js/pages/base.js' %}"></script>
 </body>
 </html>

@@ -2,71 +2,98 @@
 {% load static %}
 
 {% block title %}Travel Agency{% endblock %}
-
 {% block content %}
-<link rel="stylesheet" href="../../static/css/trip_info.css">
-</link>
+<link rel="stylesheet" href="{% static 'css/pages/trip_info.css' %}">
 
-<div class="trip-info-container">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
 
-    <div class="back-button-container">
-        <button class="back-button" onclick="handleBack()">Back</button>
-    </div>
+<div class="trip-info-page">
 
-    <div class="trip-details-and-slider">
-        <div class="trip-and-hotel-details">
+    <div class="container-presets">
 
-            <div class="trip-details">
-                <h1 class="trip-title">{{ trip }}, <br>{{ trip.hotel.city.country }}</h1>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">Departure Date:</strong>
-                    <span class="trip-detail-value">{{ trip.departure_date }}</span>
-                </div>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">Return Date:</strong>
-                    <span class="trip-detail-value">{{ trip.return_date }}</span>
-                </div>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">Adults From:</strong>
-                    <span class="trip-detail-value">${{ trip.calculate_adult_price|floatformat:0 }}</span>
-                </div>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">Children From:</strong>
-                    <span class="trip-detail-value">${{ trip.calculate_child_price|floatformat:0 }}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="trip-detail-label">{{ trip.city }}, {{ trip.city.country }}</span>
-                </div>
+        <div class="back-button-container">
+            <button class="back-button" onclick="handleBack()">Back</button>
+        </div>
+        
+        <div class="book-now-button-container">
+            <a href="{% url 'booking_create' pk=trip.pk %}">
+                <button class="book-now-button" type="button">Book Now</button>
+            </a>
+        </div>
+        
+        <h1 class="title1-presets">{{ trip }}, <br>{{ trip.hotel.city.country }}</h1>
+        <h2 class="hotel-title">{{ trip.hotel }} <br> 
+            {% for _ in stars%} 
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="25" height="25"><polygon fill="yellow" points="12,2 15,8 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,8" stroke="black" stroke-width="0.5" stroke-linejoin="round"/></svg>
+            {% endfor %}
+        </h2>
 
-                <div class="button-container">
-                    <a href="{% url 'booking_create' pk=trip.pk %}">
-                        <button class="book-now-button" type="button">Book Now</button>
-                    </a>
+        <div class="trip-info-main-container">
+
+            <div class="trip-info-price-details">
+
+                <div class="trip-details">
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">Departure Date:</strong>
+                        <span class="trip-detail-value">{{ trip.departure_date }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">Return Date:</strong>
+                        <span class="trip-detail-value">{{ trip.return_date }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">Adults From:</strong>
+                        <span class="trip-detail-value">${{ trip.calculate_adult_price|floatformat:0 }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">Children From:</strong>
+                        <span class="trip-detail-value">${{ trip.calculate_child_price|floatformat:0 }}</span>
+                    </div>
+
+                </div>
+                
+                <div class="hotel-details">
+
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">Bed & Breakfast:</strong>
+                        <span class="trip-detail-value">${{ trip.hotel.bb_price }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">Half Board:</strong>
+                        <span class="trip-detail-value">${{ trip.hotel.hb_price }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">Full Board:</strong>
+                        <span class="trip-detail-value">${{ trip.hotel.fb_price }}</span>
+                    </div>
+
+                    <div class="detail-item">
+                        <strong class="trip-detail-label">All Inclusive:</strong>
+                        <span class="trip-detail-value">${{ trip.hotel.ai_price }}</span>
+                    </div>
                 </div>
             </div>
-
-            <div class="hotel-details">
-                <h2 class="hotel-title">{{ trip.hotel }}</h2>
-                <p>{{ trip.hotel.stars }} 
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="15" height="15">
-                        <polygon fill="yellow" points="12,2 15,8 22,9 17,14 18,21 12,17 6,21 7,14 2,9 9,8" />
-                    </svg>
-                </p>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">Bed & Breakfast:</strong>
-                    <span class="trip-detail-value">${{ trip.hotel.bb_price }}</span>
-                </div>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">Half Board:</strong>
-                    <span class="trip-detail-value">${{ trip.hotel.hb_price }}</span>
-                </div>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">Full Board:</strong>
-                    <span class="trip-detail-value">${{ trip.hotel.fb_price }}</span>
-                </div>
-                <div class="detail-item">
-                    <strong class="trip-detail-label">All Inclusive:</strong>
-                    <span class="trip-detail-value">${{ trip.hotel.ai_price }}</span>
+            
+            <div class="hotel-image-description-container">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper">
+            
+                        {% for image in trip.hotel.images.all %}
+                        <div class="container-preset swiper-slide">
+                            <img src="{{ image.image.url }}" alt="Hotel Image" class="swiper-image">
+                        </div>
+                        {% endfor %}
+                        
+                    </div>
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
                 </div>
 
                 <div class="hotel-description">
@@ -75,123 +102,65 @@
 
             </div>
         </div>
-        
-        <div class="hotel-preview" style="right:0;">
-            <div class="hotel-image-slider">
-                <div class="slides">
-                    {% for image in trip.hotel.images.all %}
-                        <div class="slide">
-                            <img src="{{ image.image.url }}" alt="Hotel Image" class="slider-image">
-                        </div>
-                    {% endfor %}
+    </div>
+
+    <div class="container-presets trip-info-related-trips-container">
+        <h2 class="title1-presets trip-info-related-trips-title">See also trips from</h2>
+
+        <!-- City link -->
+        <a href="#" onclick="document.getElementById('cityForm{{ trip.id }}').submit(); return false;" class="trip-image-container">
+            <div class="inner-container-presets related-trips-container">
+                
+                <form id="cityForm{{ trip.id }}" method="get" action="{% url 'trip_search' %}" style="flex-shrink: 0; width: 30%;">
+                    {% if trip.hotel.city.image %}
+                    <img src="{{ trip.hotel.city.image.url }}" alt="City image" class="trip-image">
+                    {% endif %}
+                    <input type="hidden" name="city" value="{{ trip.hotel.city.id }}">
+                </form>
+                <div class="trip-image-description">
+                    <h2 class="title2-presets trip-info-location-title">{{ trip.hotel.city.name }}</h2>
+                    {{ trip.hotel.city.description }}
                 </div>
-                <button class="prev" onclick="changeSlide(-1)">&#10094;</button>
-                <button class="next" onclick="changeSlide(1)">&#10095;</button>
             </div>
-
-
-        </div>
+        </a>
+        
+        <!-- Country link -->
+        <a href="#" onclick="document.getElementById('countryForm{{ trip.id }}').submit(); return false;" class="trip-image-container">
+            <div class="inner-container-presets related-trips-container">
+                <form id="countryForm{{ trip.id }}" method="get" action="{% url 'trip_search' %}" style="flex-shrink: 0; width: 30%;">
+                    {% if trip.hotel.city.country.image %}
+                    <img src="{{ trip.hotel.city.country.image.url }}" alt="City image" class="trip-image">
+                    {% endif %}
+                    <input type="hidden" name="country" value="{{ trip.hotel.city.country.id }}">
+                </form>
+                <div class="trip-image-description">
+                    <h2 class="title2-presets trip-info-location-title">{{ trip.hotel.city.country }}</h2>
+                    {{ trip.hotel.city.country.description }}
+                </div>
+            </div>
+        </a>
+        
+        <!-- Continent link -->
+        <a href="#" onclick="document.getElementById('continentForm{{ trip.id }}').submit(); return false;" class="trip-image-container">
+            <div class="inner-container-presets related-trips-container">
+                <form id="continentForm{{ trip.id }}" method="get" action="{% url 'trip_search' %}" style="flex-shrink: 0; width: 30%;">
+                    {% if trip.hotel.city.country.continent.image %}
+                    <img src="{{ trip.hotel.city.country.continent.image.url }}" alt="Continent image" class="trip-image">
+                    {% endif %}
+                    <input type="hidden" name="continent" value="{{ trip.hotel.city.country.continent.id }}">
+                </form>
+                <div class="trip-image-description">
+                    <h2 class="title2-presets trip-info-location-title">{{ trip.hotel.city.country.continent.name }}</h2>
+                    {{ trip.hotel.city.country.continent.description }}
+                </div>
+            </div>
+        </a>
+        
     </div>
+
 </div>
 
-<div class="related_trip_locations">
-    <h2>See also trips from:</h2>
-
-    <!-- City link -->
-    <div class="trip-city">
-        <form id="cityForm{{ trip.id }}" method="get" action="{% url 'search_trips' %}" style="flex-shrink: 0; width: 30%;">
-            <a href="#" onclick="document.getElementById('cityForm{{ trip.id }}').submit(); return false;" class="trip-image-container">
-                {% if trip.hotel.city.image %}
-                <img src="{{ trip.hotel.city.image.url }}" alt="City image" class="trip-image">
-                {% endif %}
-            </a>
-            <input type="hidden" name="city" value="{{ trip.hotel.city.id }}">
-        </form>
-        <div class="trip-image-description">
-            {{ trip.hotel.city.description }}
-        </div>
-    </div>
-    
-    <!-- Country link -->
-    <div class="trip-country">
-        <form id="countryForm{{ trip.id }}" method="get" action="{% url 'search_trips' %}" style="flex-shrink: 0; width: 30%;">
-            <a href="#" onclick="document.getElementById('countryForm{{ trip.id }}').submit(); return false;" class="trip-image-container">
-                {% if trip.hotel.city.country.image %}
-                <img src="{{ trip.hotel.city.country.image.url }}" alt="City image" class="trip-image">
-                {% endif %}
-            </a>
-            <input type="hidden" name="country" value="{{ trip.hotel.city.country.id }}">
-        </form>
-        <div class="trip-image-description">
-            {{ trip.hotel.city.country.description }}
-        </div>
-    </div>
-    
-    <!-- Continent link -->
-    <div class="trip-continent">
-        <form id="continentForm{{ trip.id }}" method="get" action="{% url 'search_trips' %}" style="flex-shrink: 0; width: 30%;">
-            <a href="#" onclick="document.getElementById('continentForm{{ trip.id }}').submit(); return false;" class="trip-image-container">
-                {% if trip.hotel.city.country.continent.image %}
-                <img src="{{ trip.hotel.city.country.continent.image.url }}" alt="Continent image" class="trip-image">
-                {% endif %}
-            </a>
-            <input type="hidden" name="continent" value="{{ trip.hotel.city.country.continent.id }}">
-        </form>
-        <div class="trip-image-description">
-            {{ trip.hotel.city.country.continent.description }}
-        </div>
-    </div>
-    
-</div>
-
-
-
-
-
-<script>
-    let currentSlide = 0;
-    let slideInterval;
-    const slides = document.querySelectorAll('.slide'); // Fetch all slides
-    
-    // Filter out empty slides
-    const validSlides = Array.from(slides).filter(slide => {
-        return slide.querySelector('img'); // Check if the slide contains an image
-    });
-    const totalSlides = validSlides.length; // Count only valid slides
-    
-    function showSlide(index) {
-        // Wraparound logic
-        if (index >= totalSlides) {
-            currentSlide = 0;
-        } else if (index < 0) {
-            currentSlide = totalSlides - 1;
-        } else {
-            currentSlide = index;
-        }
-    
-        // Move slides only for valid ones
-        const offset = -currentSlide * 100; // Calculate offset in percentage
-        document.querySelector('.slides').style.transform = `translateX(${offset}%)`;
-    }
-    
-    function changeSlide(direction) {
-        clearInterval(slideInterval); // Clear the existing interval
-        showSlide(currentSlide + direction);
-        startAutoplay(); // Restart autoplay
-    }
-    
-    function startAutoplay() {
-        slideInterval = setInterval(() => {
-            showSlide(currentSlide + 1); // Automatically go to the next slide
-        }, 3000); // Change slide every 3 seconds
-    }
-    
-    // Show the first slide on page load
-    document.addEventListener('DOMContentLoaded', function() {
-        showSlide(currentSlide);
-        startAutoplay(); // Start autoplay
-    });
-    </script>
-    
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="{% static 'js/components/swiper_trip_info.js' %}"></script>
 
 {% endblock %}

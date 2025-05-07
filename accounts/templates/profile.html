@@ -7,93 +7,220 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
 
-
-
-
-<div class="container-presets account-info-container" >
+<div class="container-presets centered-container account-info-container" >
     
-    <div class="account-info-details">
-        <h2>{{ profile_user.username.title }}'s Page</h2>
-        <p>username</p>
-        <p>age</p>
-        <p>Email: {{ profile_user.email }}</p>
-        <p>mobile:</p>
-        <p>Reset password</p>
-        <p></p>
+    <h2 class="title1-presets">{{ profile_user.username.title }}'s Page</h2>
+    <div class="account-info-profile-and-history">
+        
+        <div class="profile-info-container">
+
+            <div class="account-info-profile-picture"></div>
+
+            <hr class="divider-presets">
+            <p>username: {{ profile_user.username.title }}</p>
+            <p>Email: {{ profile_user.email }}</p>
+            <hr class="divider-presets">
+            <button class="button-presets">edit profile</button>
+            
+        </div>
+        <div class="account-info-booking-history-container">
+            <h2 class="title2-presets">BOOKING HISTORY</h2>   
+            <div class="account-info-booking-history">
+                
+                {% if paid_bookings %}
+    
+                    {% for booking in paid_bookings %}
+                    <div class="inner-container-presets account-booking-history-booking-and-invoice">
+
+                        <div class="account-booking-history-booking-card">
+                            <h3 style="justify-self: center; align-self: center;">Booking</h3>
+                            <hr class="divider-presets">
+                            <p>Trip: {{ booking.trip }}</p>
+                            <p>Departure: {{ booking.trip.departure_date }}</p>
+                            <p>Return: {{ booking.trip.return_date }}</p>
+                            <hr class="divider-presets">
+                            
+                            <p>Adults: {{ booking.tickets_adult }} </p>
+                            {% if booking.tickets_child %}
+                                <p>Children: {{ booking.tickets_child }} </p>
+                            {% endif %}
+
+                            <hr class="divider-presets">
+
+                            {% if booking.get_meal_plan_display != "No Meal Plan" %}
+                                <p>Meal: {{ booking.get_meal_plan_display }}</p>
+                                <hr class="divider-presets">
+                            {% endif %}
+
+                            {% if booking.wants_flight %}
+                                <p>Flight: Yes</p>
+                                {% if booking.wants_airport_pickup %}
+                                    <p>Pick from airport: Yes</p>
+                                {% endif %}
+                                {% if booking.wants_airport_dropoff %}
+                                    <p>Drop to airport: Yes</p>
+                                {% endif %}
+                                <hr class="divider-presets">
+                            {% endif %}
+                            {% if booking.wants_car_rental %}
+                                <p>Car Rental: {{ booking.car_rental_days }} day{{ booking.car_rental_days|pluralize }}</p>
+                                <hr class="divider-presets">
+                            {% endif %}
+                            
+                            <p>{{ booking.total_tickets }} Ticket{{ booking.total_tickets|pluralize }}</p>
+                            
+                        </div>
+                        <hr class="divider-presets">
+                        <div class="account-booking-history-invoice-card">
+                            <h3 style="justify-self: center; align-self: center;">Invoice</h3>
+                            <p>{{ booking.invoice.payment_date }}</p>
+                            <hr class="divider-presets">
+                            <p>Trip: {{ booking.trip }}</p>
+                            <p>Departure: {{ booking.trip.departure_date }}</p>
+                            <p>Return: {{ booking.trip.return_date }}</p>
+                            <hr class="divider-presets">
+                            <p>For {{ booking.tickets_adult }} adult{{ booking.tickets_adult|pluralize }}: ${{ booking.adult_price|floatformat:0 }}</p>
+                            {% if booking.tickets_child %}
+                                <p>For {{ booking.tickets_child }} child{{ booking.tickets_child|pluralize:"ren" }}: ${{ booking.child_price|floatformat:0 }}</p>
+                            {% endif %}
+
+                            {% if booking.total_tickets > 1 %}
+                                <p>For {{ booking.total_tickets }} Tickets: ${{ booking.total_price|floatformat:0 }}</p>
+                            {% endif %}
+                            <hr class="divider-presets">
+                            
+                            {% if booking.get_meal_plan_display != "No Meal Plan" %}
+                                <p>Meal for {{ booking.total_tickets }}: ${{ booking.calculate_meal_plan_cost|floatformat:0 }}</p>
+                                <hr class="divider-presets">
+                            {% endif %}
+
+                            {% if booking.wants_flight %}
+                                <p>Plane Tickets ${{ booking.plane_tickets_cost }}</p>
+
+                                {% if booking.wants_airport_pickup %}
+                                    <p>Airport Pick Up: ${{ booking.airport_pickup_total }}</p>
+                                {% endif %}
+                                {% if booking.wants_airport_dropoff %}
+                                    <p>Airport Drop Off: ${{ booking.airport_dropoff_total }}</p>
+                                {% endif %}
+                                <p>Total Airport: ${{ booking.calculate_airport_cost|floatformat:0 }}</p>
+                                <hr class="divider-presets">
+                            {% endif %}
+
+                            {% if booking.wants_car_rental  %}
+                                <p>Car Rental: ${{ booking.car_rental_cost }}</p>
+                                <hr class="divider-presets">
+                            {% endif %}
+                            
+                            <p>Total Sum: ${{ booking.booking_price }}</p>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+    
+                {% endif %}
+    
+            </div>
+
+        </div>
+        
     </div>
-
-    <div class="account-info-button-container">
-        <button>edit profile</button>
-        <button>paid bookings</button>
-    </div>
-
-
-
 
 </div>
 
 
-<div class="container-presets account-pending-bookings-container">
-    <h2 class="title1-presets">Pending Bookings</h2>
+
+
+
+
+<!-- PENDING BOOKINGS -->
+<div class="container-presets centered-container">
+
+    {% if messages %}
+    {% for message in messages %}
+      <div class="custom-message {{ message.tags }}" role="alert">
+        <p>{{ message }}</p>
+        <button class="dismiss-btn" onclick="this.parentElement.style.display='none';">OK</button>
+      </div>
+    {% endfor %}
+    {% endif %}
+
+    <h1 class="title1-presets">Pending Bookings</h1>
 
     {% if bookings %}
-        <div class="booking-container">
+        <div class="account-info-booking-container ">
             {% for booking in bookings %}
-                <div class="booking">
-                    <div class="booking-item-trip-title">{{ booking.trip }}</div>
-                    <hr class="divider">
-                    <div class="booking-item">Booking Date: {{ booking.booking_date }}</div>
-                    <div class="booking-item">Meal Plan: {{ booking.get_meal_plan_display }}</div>
-                    <div class="booking-item">Adult Tickets: {{ booking.tickets_adult }}</div>
-                    <div class="booking-item">Child Tickets: {{ booking.tickets_child }}</div>
+                <div class="account-info-booking inner-container-presets" style="margin-bottom: 30px;">
+                    <h2 class="account-info-booking-title title2-presets">{{ booking.trip }}</h2>
+                    <hr class="divider-presets">
                     
+
+                    <h3 class="account-info-booking-title2">Dates</h3>
+                    <p class="account-info-booking-item">Booking Date: {{ booking.booking_date }}</p>
+                    <p class="account-info-booking-item">Departure: {{ booking.trip.departure_date }}</p>
+                    <p class="account-info-booking-item">Return: {{ booking.trip.return_date }}</p>
+                    <hr class="divider-presets">
+
+                    <h3 class="account-info-booking-title2">Tickets</h3>
+                    <p class="account-info-booking-item">Adults: {{ booking.tickets_adult }}</p>
+                    {% if booking.tickets_child != 0 %}
+                    <p class="account-info-booking-item">Children: {{ booking.tickets_child }}</p>
+                    {% endif %}
+                    <div class="account-info-price-item">Price for Tickets ${{ booking.price_for_tickets|floatformat:0 }}</div>
+                    <hr class="divider-presets">
+
+                    {% if booking.get_meal_plan_display != 'No Meal Plan' %}
+                    <h3 class="account-info-booking-title2">Meal</h3>
+                    <p class="account-info-booking-item">{{ booking.get_meal_plan_display }}</p>
+                    <div class="account-info-price-item">Meal Cost ${{ booking.calculate_meal_plan_cost|floatformat:0 }}</div>
+                    {% else %}
+                    <h3 class="account-info-booking-title2">Meal ❌ </h3>
+                    {% endif %}
+                    <hr class="divider-presets">
+
+                    <h3 class="account-info-booking-title2">Airport{% if booking.wants_flight %} ({{ booking.from_airport.code }}) ➜ ({{ booking.trip.airport.code }})
+                        {% else %} ❌ {% endif %}</h3>
                     {% if booking.wants_flight  %}
-                    <div class="booking-item">Flight Tickets: Yes</div>
-                    <div class="booking-item">From Airport: {{ booking.from_airport }}</div>
-                    <div class="booking-item">Airport Pick Up: {{ booking.wants_airport_pickup }} </div>
-                    <div class="booking-item">Airport Drop Off: {{ booking.wants_airport_dropoff }}</div>
-                    <div class="booking-item">Airport Price: {{ booking.airport_price }}
+                    <div class="account-info-booking-item">From<br> {{ booking.from_airport }} </div>
+                    <div class="account-info-booking-item">To<br> {{ booking.trip.airport }} </div>
+                        {% if booking.wants_airport_pickup %}
+                            <div class="account-info-booking-item">Pick Up ✅ </div>
+                        {% endif %}
+                        {% if booking.wants_airport_dropoff %}
+                            <div class="account-info-booking-item">Drop Off ✅ </div>
+                        {% endif %}
+                    <div class="account-info-price-item">Airport Price: {{ booking.airport_price }}</div>
                     {% else %}
-                    <div class="booking-item">Flight Tickets: No</div>
                     {% endif %}
+                    <hr class="divider-presets">
+
                     {% if booking.wants_car_rental  %}
-                    <div class="booking-item">Car Rental: {{ booking.wants_car_rental }}</div>
-                    <div class="booking-item">Rental Days: {{ booking.car_rental_days }}</div>
-                    <div class="booking-item">Rental Cost: {{ booking.car_rental_cost }}</div>
+                        <h3 class="account-info-booking-title2">Car Rental </h3>
+                        <div class="account-info-booking-item">Days: {{ booking.car_rental_days }}</div>
+                        <div class="account-info-price-item">Rental Cost: {{ booking.car_rental_cost }}</div>
                     {% else %}
-                    <div class="booking-item">Car Rental: No</div>
+                        <h3 class="account-info-booking-title2">Car Rental ❌ </h3>
                     {% endif %}
+                    <hr class="divider-presets">
 
-                    <div class="booking-item">Booking Price: ${{ booking.booking_price }}</div>
-                    <div class="booking-item">paid: {{ booking.paid }}</div>
-                    <hr class="divider">
-
-
+                    <div class="account-info-booking-item account-info-booking-total-price">Booking Price<br>${{ booking.booking_price }}</div>
                     <form action="{% url 'booking_pay' pk=booking.pk %}" method="post" style="display:inline;">
                         {% csrf_token %}
-                        <button type="submit">Pay Booking</button>
+                        <button type="submit" class="button-presets account-info-booking-pay-button">Pay Booking</button>
                     </form>
+                    
+                    <hr class="divider-presets">
 
-                    <a href="{% url 'booking_update' pk=booking.pk %}"><button>Edit Booking</button></a>
-                    <a href="{% url 'booking_delete' pk=booking.pk %}"><button>Delete Booking</button></a>
+                    <a href="{% url 'booking_update' pk=booking.pk %}"><button class="button-presets account-info-booking-edit-button">Edit Booking</button></a>
+                    <a href="{% url 'booking_delete' pk=booking.pk %}"><button class="button-presets account-info-booking-delete-button">Delete Booking</button></a>
 
-
+                    <!-- <button class="delete-btn" data-booking-id="{{ booking.id }}">Delete Booking</button> -->
                 </div>
+
             {% endfor %}
         </div>
     {% else %}
-        <p>You have no bookings yet.</p>
+        <h1 class="title2-presets">You have no bookings yet.</h1>
     {% endif %}
 </div>
-
-
-
-
-
-
-
-
-
-
-
 {% endblock %}

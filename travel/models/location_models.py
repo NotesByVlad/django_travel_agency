@@ -10,12 +10,11 @@ class Continent(models.Model):
     def __str__(self):
         return self.name
     
-
 ### Country ###
 class Country(models.Model):
     class Meta:
         verbose_name_plural = 'Countries'
-        
+
     name = models.CharField(max_length=30, unique=True, help_text='Country name')
     description = models.TextField(null=True, blank=True, help_text='Country description')
     image = models.ImageField(upload_to='country_images/', blank=True, null=True)
@@ -43,7 +42,6 @@ class City(models.Model):
 
     def __str__(self):
         return self.name
-
 
 ### Hotel ###
 class Hotel(models.Model):
@@ -87,7 +85,6 @@ class HotelImages(models.Model):
     def __str__(self):
         return f"Image for {self.hotel.name}"
 
-
 ### Airport ###
 class Airport(models.Model):
     name = models.CharField(max_length=100, help_text='Airport name')
@@ -103,23 +100,6 @@ class Airport(models.Model):
     
     airport_drop_off_cost = models.PositiveIntegerField(default=10,
         help_text='Price for dropping of to the airport')
-
-    # Flight cost for different country / continent
-    # def calculate_plane_ticket_cost(self, from_country, from_continent, 
-    #                             to_country, to_continent):
-        
-    #     price_outside_country = 0.30   # 30 % more
-    #     price_outside_continent = 0.50 # 50 % more
-
-    #     is_same_continent = from_continent == to_continent
-    #     is_same_country = from_country == to_country
-
-    #     if is_same_continent and not is_same_country:
-    #         return self.standard_plane_ticket + (price_outside_country * self.standard_plane_ticket)
-    #     elif not is_same_continent:
-    #         return self.standard_plane_ticket + (price_outside_continent * self.standard_plane_ticket)
-        
-    #     return self.standard_plane_ticket
 
     def __str__(self):
         return self.name

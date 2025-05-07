@@ -1,12 +1,34 @@
 {% extends "base.html" %}
 {% block content %}
-    <h2>Are you sure you want to delete this booking?</h2>
-    <p>Trip: {{ object.trip }}</p>
-    <p>Booking Date: {{ object.booking_date }}</p>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/pages/booking_confirm_delete.css' %}"> 
+</link>
+
+<div class="booking-confirm-delete-page">
+
+    <div class="container-presets">
+        
+        <h1 class="title1-presets booking-confirm-delete-title">Are you sure you want to delete<br> this booking?</h1>
+        
+        <div class="booking-confirm-delete-container">
+            <h2 class="booking-confirm-delete-item"><strong>Booking Date</strong><br><span>{{ object.booking_date }}</span> </h2>
+            <h2 class="booking-confirm-delete-item"><strong>Price</strong><br> <span>${{ object.booking_price }}</span></h2>
+            <h2 class="booking-confirm-delete-item"><strong>Trip</strong><br> <span>{{ object.trip }}<br>{{ object.trip.departure_date }} - {{ object.trip.return_date }}</span></h2>
+            
+            <hr class="divider-presets">
+            <div class="confirm-delete-button-container">
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="button-presets">Delete Booking</button>
+                </form>
+                <a href="{% url 'user_profile' username=request.user.username %}"><button class="button-presets">Cancel</button></a>
+                
+            </div>
+            
+        </div>
+        
+    </div>
     
-    <form method="post">
-        {% csrf_token %}
-        <button type="submit">Yes, Delete Booking</button>
-    </form>
-    <a href="{% url 'user_profile' username=request.user.username %}">Cancel</a>
+</div>
 {% endblock %}

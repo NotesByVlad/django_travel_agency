@@ -1,7 +1,7 @@
 from .forms import CustomUserCreationForm
 from .models import CustomUser
 from django.contrib.auth.mixins import LoginRequiredMixin
-from travel.models import Booking, Trip
+from travel.models import Booking
 from django.views.generic.edit import CreateView
 from django.views.generic import DetailView
 from django.urls import reverse_lazy
@@ -9,6 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm
 
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
+from travel.services.airport_services import calculate_plane_ticket_cost
+from .services import get_user_booking_context
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     model = CustomUser
@@ -31,11 +33,57 @@ class UserProfileView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         user = self.object
 
-        context['bookings'] = Booking.objects.filter(user=user)
-        context['promoted'] = Trip.objects.filter(promoted=True)
+        # Call the service function to get the booking data
+        booking_context_data = get_user_booking_context(user)
+
+        # Update the context with the data from the service function
+        context.update(booking_context_data)
 
         return context
 
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     user = self.object
+
+    #     bookings = Booking.objects.filter(user=user, paid=False)
+    #     for booking in bookings:
+    #         price_for_tickets = (
+    #             booking.trip.calculate_adult_price(booking.tickets_adult) +
+    #             booking.trip.calculate_child_price(booking.tickets_child)
+    #         )
+    #         booking.price_for_tickets = price_for_tickets
+
+    #     paid_bookings = Booking.objects.filter(user=user, paid=True)
+    #     for booking in paid_bookings:
+            
+    #         # Calculate the individual and total prices for this paid booking
+    #         adult_price = booking.trip.calculate_adult_price(booking.tickets_adult)
+    #         child_price = booking.trip.calculate_child_price(booking.tickets_child)
+    #         total_price = adult_price + child_price
+
+    #         # Attach the calculated values to the paid booking object
+    #         booking.adult_price = adult_price
+    #         booking.child_price = child_price
+    #         booking.total_price = total_price
+
+    #         if booking.from_airport:
+    #             from_country = booking.from_airport.city.country
+    #             from_continent = booking.from_airport.city.country.continent
+    #             to_country = booking.trip.airport.city.country
+    #             to_continent = booking.trip.airport.city.country.continent
+    #             plane_tickets_cost = calculate_plane_ticket_cost(
+    #                                         booking.from_airport.standard_plane_ticket, 
+    #                                         from_country, from_continent, 
+    #                                         to_country, to_continent)
+    #             booking.plane_tickets_cost = plane_tickets_cost * booking.total_tickets()
+    #             booking.airport_pickup_total = booking.trip.airport.airport_pick_up_cost * booking.total_tickets()
+    #             booking.airport_dropoff_total = booking.trip.airport.airport_drop_off_cost * booking.total_tickets()
+
+    #     context['bookings'] = bookings
+    #     context['paid_bookings'] = paid_bookings
+
+    #     return context
 class RegisterView(CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm

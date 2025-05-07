@@ -82,40 +82,6 @@ document.addEventListener('click', (event) => {
     }
 });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ### search form handling ### // ----------------------------------------
 
 //1. Populate locations -----------------------------------------

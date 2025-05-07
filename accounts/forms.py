@@ -7,7 +7,6 @@ class CustomUserCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'email', 'password1', 'password2')
 
-
     def clean_username(self):
         username = self.cleaned_data['username']
         if CustomUser.objects.filter(username__iexact=username).exists():

@@ -4,13 +4,180 @@
 {% block title %}Django Travel{% endblock %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static '/css/index.css' %}">
-</link>
+<link rel="stylesheet" href="{% static 'css/pages/index.css' %}">
+<!-- Swiper CSS -->
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
+<div class="section-for-swiper">
+
+    <h2 class="title1-presets">Promoted</h2>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for trip in trips_promoted %}
+            <div class="container-presets swiper-slide">
+                <a href="{% url 'trip_info' pk=trip.pk %}" class="swiper-slide-link">
+                <h2 class="swiper-slide-title">{{ trip }}</h2>
+
+                <div class="swiper-slide-dates">
+                    <span>{{ trip.departure_date }} - </span><span>{{ trip.return_date }}</span>
+                </div>
+
+                <div class="swiper-slide-image-container">
+                    {% if trip.hotel.city.image %}
+                    <img src="{{ trip.hotel.city.image.url }}" alt="City image" class="swiper-slide-image">
+                    {% endif %}
+
+                </div>
+                <div class="swiper-slide-price">
+                    Ticket from ${{ trip.calculate_adult_price|floatformat:0 }}
+                </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+
+</div>
 
 
-{% include 'trips/promoted_trips.html' %}
 
 
 
+<div class="section-for-swiper">
+
+    <h2 class="title1-presets">Upcoming Global Trips</h2>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for trip in trips_global %}
+            <div class="container-presets swiper-slide">
+                <a href="{% url 'trip_info' pk=trip.pk %}" class="swiper-slide-link">
+                <h2 class="swiper-slide-title">{{ trip }}</h2>
+                <div class="swiper-slide-dates">
+                    <span>{{ trip.departure_date }} - </span><span>{{ trip.return_date }}</span>
+                </div>
+                <div class="swiper-slide-image-container">
+                    {% if trip.hotel.city.image %}
+                    <img src="{{ trip.hotel.city.image.url }}" alt="City image" class="swiper-slide-image">
+                    {% endif %}
+                </div>
+                <div class="swiper-slide-price">
+                    Ticket from ${{ trip.calculate_adult_price|floatformat:0 }}
+                </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+
+
+<div class="section-for-swiper">
+    <!----------------------------------------->
+    <h2 class="title1-presets">Trips by Continent</h2>
+    <!-- Continent Selector -->
+
+    <form method="get" action="{% url 'home' %}">
+        <select class="swiper-filter-selector" name="continent_id" onchange="this.form.submit()">
+            <option value="">All Continents</option>
+            {% for continent in trips_continent.keys %}
+                <option value="{{ continent.pk }}" {% if selected_continent_id == continent.pk|stringformat:"s" %}selected{% endif %}>
+                    {{ continent.name }}
+                </option>
+            {% endfor %}
+        </select>
+        {% if selected_country_id %}
+            <input type="hidden" name="country_id" value="{{ selected_country_id }}">
+        {% endif %}
+    </form>
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for trip in trips_for_continent_carousel %}
+                <div class="container-presets swiper-slide">
+                    <a href="{% url 'trip_info' pk=trip.pk %}" class="swiper-slide-link">
+                        <h2 class="swiper-slide-title">{{ trip }}</h2>
+                        <div class="swiper-slide-dates">
+                            <span>{{ trip.departure_date }} - </span><span>{{ trip.return_date }}</span>
+                        </div>
+                        <div class="swiper-slide-image-container">
+                            {% if trip.hotel.city.image %}
+                                <img src="{{ trip.hotel.city.image.url }}" alt="City image" class="swiper-slide-image">
+                            {% endif %}
+                        </div>
+                        <div class="swiper-slide-price">
+                            Ticket from ${{ trip.calculate_adult_price|floatformat:0 }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+
+
+<div class="section-for-swiper">
+    <h2 class="title1-presets">Trips by Country</h2>
+    <!-- Country Selector -->
+
+    <form method="get" action="{% url 'home' %}">
+        <select class="swiper-filter-selector" name="country_id" onchange="this.form.submit()">
+            <option value="">All Countries</option>
+            {% for country in trips_country.keys %}
+                <option value="{{ country.pk }}" {% if selected_country_id == country.pk|stringformat:"s" %}selected{% endif %}>
+                    {{ country.name }}
+                </option>
+            {% endfor %}
+        </select>
+        {% if selected_continent_id %}
+            <input type="hidden" name="continent_id" value="{{ selected_continent_id }}">
+        {% endif %}
+    </form>
+
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            {% for trip in trips_for_country_carousel %}
+                <div class="container-presets swiper-slide">
+                    <a href="{% url 'trip_info' pk=trip.pk %}" class="swiper-slide-link">
+                        <h2 class="swiper-slide-title">{{ trip }}</h2>
+                        <div class="swiper-slide-dates">
+                            <span>{{ trip.departure_date }} - </span><span>{{ trip.return_date }}</span>
+                        </div>
+                        <div class="swiper-slide-image-container">
+                            {% if trip.hotel.city.image %}
+                                <img src="{{ trip.hotel.city.image.url }}" alt="City image" class="swiper-slide-image">
+                            {% endif %}
+                        </div>
+                        <div class="swiper-slide-price">
+                            Ticket from ${{ trip.calculate_adult_price|floatformat:0 }}
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+    </div>
+</div>
+
+<!-- Initialize Swiper -->
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+<script src="{% static 'js/components/swiper_index.js' %}"></script>
 
 {% endblock %}

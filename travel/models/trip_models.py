@@ -1,11 +1,8 @@
 from django.db import models
-
 from .location_models import City, Hotel, Airport
-
 from django.core.exceptions import ValidationError
 from django.conf import settings
 import datetime
-
 from django.utils.timezone import timedelta
 from travel.services.trip_services import (
     calculate_trip_duration,
@@ -57,19 +54,28 @@ class Trip(models.Model):
             self.departure_date, self.return_date,
             quantity)
 
+    def has_changed(self, field_name):
+        if not self.pk:
+            return True
+        try:
+            old_value = type(self).objects.get(pk=self.pk).__dict__.get(field_name)
+            new_value = getattr(self, field_name)
+            return old_value != new_value
+        except type(self).DoesNotExist:
+            return True
 
     def clean_dates(self):
-        if self.return_date <= self.departure_date:
-            raise ValidationError('Return date must be after the departure date')
+        # Only validate if dates are new or have changed
+        if self.has_changed('departure_date') or self.has_changed('return_date'):
+            if self.return_date <= self.departure_date:
+                raise ValidationError('Return date must be after the departure date')
 
-        if self.departure_date <= datetime.date.today():
-            raise ValidationError('Departure date cannot be today or in the past')
-
+            if self.departure_date <= datetime.date.today():
+                raise ValidationError('Departure date cannot be today or in the past')
 
     def clean_tickets(self):
         if self.tickets > self.hotel.capacity:
             raise ValidationError(f'Hotel has {self.hotel.capacity} available spots')
-
 
     def clean_locations(self):
         if not self.hotel:
@@ -108,8 +114,6 @@ class Trip(models.Model):
             
             # Repeats check on next day of the trip
             current_date += timedelta(days=1)
-
-
 
     def clean(self):
         self.clean_dates()

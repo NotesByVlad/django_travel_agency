@@ -5,22 +5,178 @@
 
 {% block content %}
 
+<style>
+    .contact-us-container {
+        padding: 2rem;
+        justify-content: center;
+        align-items: center;
+    }
+    .contact-us-form {
+        margin-top: 3rem;
+        padding: 3rem;
+    }
+    .contact-us-form label {
+        font-size: 1.5rem;
+        text-shadow: var(--text-shadow-crisp-black);
+    }
+    .contact-us-form input,
+    .contact-us-form textarea {
+        /* justify-content: center;
+        align-items: center; */
+        font-size: 1.5rem;
+        margin: 10px 0;
+        padding: 0.5rem;
+        outline: none;
+        border: none;
+        border-radius: 0.5rem;
+    }
+    .contact-us-form input {
+        width: 15rem;
+        height: 2rem;
+    }
+    .contact-us-form textarea {
+
+        max-width: 40rem;
+        max-height: 25rem;
+    }
+
+    .contact-us-form input:focus,
+    .contact-us-form textarea:focus {
+        box-shadow: var(--box-shadow-light-blue-surround);
+    }
+
+    .contact-us-form-button {
+        margin-top: 2rem;
+        font-size: 1.5rem;        
+    }
+    /* .contact-us-messages-container {
+       
+
+    } */
+
+    .contact-us-messages-container-message {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+        padding-left: 5rem;
+        padding-right: 5rem;
+        padding-top: 2rem;
+        padding-bottom: 1rem;
+        justify-self: center;
+        align-self: center;
+        max-width: 50%;
+        
+    }
+    .contact-us-top-message {
+        font-size: 3rem;
+        color: var(--light-blue);
+        text-shadow: var(--text-shadow-layered-black);
+    }
+
+
+</style>
 
 
 
 
+<div class="container-presets contact-us-container">
+    <h1 class="title1-presets">Contact Us</h1>
 
-<div style="background-color: rgba(0,0,0,0.4); border-radius: 10px;">
-    <p>not another contact page</p>
+
+    {% if messages %}
+    <ul class="contact-us-top-message">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <div class="contact-us-form">
+
+
+        <form method="post">
+            {% csrf_token %}
+            
+            <div>
+                <label for="{{ form.name.id_for_label }}">Name</label><br>
+                {{ form.name }}  <!-- Renders the input field for name -->
+                {% if form.name.errors %}
+                <ul class="errors">
+                    {% for error in form.name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label for="{{ form.email.id_for_label }}">Email</label><br>
+                {{ form.email }}  <!-- Renders the input field for email -->
+                {% if form.email.errors %}
+                <ul class="errors">
+                    {% for error in form.email.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            
+            <div>
+                <label for="{{ form.message.id_for_label }}">Message</label><br>
+                {{ form.message }}  <!-- Renders the textarea for message -->
+                {% if form.message.errors %}
+                <ul class="errors">
+                    {% for error in form.message.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+            
+            <button class="button-presets contact-us-form-button" type="submit">Contact Us</button>
+        </form>
+        
+        
+        
+    </div>
+
+    <!-- PREVIOUS MESSAGES -->
+    <div class="contact-us-messages-container">
+        {% if user_messages %}
+          <h2>Your Previous Messages</h2>
+          <ul>
+            {% for msg in user_messages %}
+              <div class="inner-container-presets contact-us-messages-container-message">
+                <li>
+                  <h3 class="contact-us-messages-container-message-username">
+                    {{ msg.name }}
+                  </h3><br>
+      
+                  <p class="contact-us-messages-container-message-message">
+                    {{ msg.message|linebreaks }}
+                  </p><br>
+                  
+      
+                  <small>Sent: {{ msg.created_at|date:"Y-m-d H:i" }}</small>
+      
+                  {% if msg.replied and msg.reply_message %}
+                  <hr class="divider-presets">
+                    <div class="contact-us-admin-reply">
+                      <strong>Reply from django-travel</strong><br>
+                      <p>{{ msg.reply_message|linebreaks }}</p>
+                      <small>Replied: {{ msg.replied_at|date:"Y-m-d H:i" }}</small>
+                    </div>
+                  {% endif %}
+                </li>
+              </div>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>You haven't sent any messages yet.</p>
+        {% endif %}
+    </div>
+
+
+
+
 </div>
-
-
-
-
-
-
-
-
-
-
 {% endblock %}

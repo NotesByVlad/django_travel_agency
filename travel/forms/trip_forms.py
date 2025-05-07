@@ -2,9 +2,6 @@ from django import forms
 from travel.models import Continent, Country, City, Airport
 from datetime import date, timedelta
 
-
-
-
 class TripSearchForm(forms.Form):
     continent = forms.ModelChoiceField(
         queryset=Continent.objects.all(),
@@ -46,7 +43,7 @@ class TripSearchForm(forms.Form):
         choices=[('yes', 'Yes'), ('no', 'No')],
         required=False,
         label="Do you want flight tickets?",
-        initial='no',  # Initially set to 'No'
+        initial='yes',
         widget=forms.Select(attrs={'autocomplete': 'off'})
     )
     from_airport = forms.ModelChoiceField(
@@ -113,7 +110,7 @@ class TripSearchForm(forms.Form):
     def clean(self):
         """Run general form validations."""
         cleaned_data = super().clean()
-        self.clean_tickets()  # Validate tickets (adult/children)
-        self.clean_flight_and_airport()  # Validate flight and airport (if needed)
+        self.clean_tickets()
+        self.clean_flight_and_airport()
 
         return cleaned_data

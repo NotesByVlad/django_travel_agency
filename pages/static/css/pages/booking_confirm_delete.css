@@ -1,0 +1,32 @@
+.booking-confirm-delete-page {
+    width: 60%;
+    justify-self: center;
+    align-self: center;
+}
+.booking-confirm-delete-container {
+    padding: 20px;
+    margin: 20px;
+}
+.booking-confirm-delete-title {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+.booking-confirm-delete-item {
+    margin-bottom: 20px;
+    color: var(--light-blue);
+    font-size: 25px;
+    text-shadow: var(--text-shadow-layered-black);
+}
+.booking-confirm-delete-container span {
+    color: var(--text-color);
+}
+.confirm-delete-button-container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
+.confirm-delete-button-container button {
+    margin: 0 10px;
+}

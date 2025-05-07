@@ -1,0 +1,140 @@
+@media (max-width: 999999px) {
+    .booking-form-page {
+        width: 70%;
+        justify-self: center;
+    }
+    .booking-form-container {
+        margin: 50px;
+        padding: 100px;
+    }
+    .booking-form-container h1 {
+        margin-bottom: 30px;
+        font-size: 40px;
+    }
+    .booking-form-container {
+        text-shadow: var(--text-shadow-crisp-black);
+    }
+    .booking-form-group {
+        font-size: 20px;
+    }
+    .booking-form-group label {
+        font-size: 25px;
+    }
+    .booking-form-group input,
+    .booking-form-group select {
+        font-size: 15px;
+        width: 200px;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        padding: 10px;
+        color: var(--text-color);
+        background-color: var(--dark-blue);
+        cursor: pointer;
+    }
+    .booking-form-group input:hover,
+    .booking-form-group select:hover {
+        box-shadow: var(--box-shadow-dark-blue-surround);
+    }
+    .booking-form-group input:focus,
+    .booking-form-group select:focus {
+        background-color: var(--light-blue);
+        box-shadow: var(--box-shadow-light-blue-surround);
+    }
+    .booking-form-trip-details {
+        font-weight:bold;
+        font-size: 25px;
+        color: var(--dark-blue);
+        text-shadow: none;
+    }
+    .booking-form-price-details {
+        display: flex;
+        flex-direction: row;        
+        font-size: 20px;
+        justify-content: space-between;
+        width: 100%;
+    }
+    .booking-form-static-prices-container {
+        flex-grow: 1;
+        text-align: left;
+    }
+    .booking-form-dynamic-prices-container {
+        flex-grow: 1;
+        text-align: right;
+    }
+    .booking-form-dynamic-prices-container p {
+        text-align: right;
+    }
+    .booking-form-static-prices-container p {
+        text-align: left;
+    }
+    .booking-partial-price {
+        color: var(--dark-blue);
+        margin-top: 10px;
+        font-size: 30px;
+        border-bottom: 2px solid var(--dark-blue);
+        display: inline-block;
+        padding-bottom: 2px;
+        text-shadow: none;
+    }
+    .booking-form-price-title {
+        font-size: 25px;
+        color: var(--dark-blue);
+        text-shadow: none;
+    }
+    .top-booking-form-error {
+        margin-top: 20px;
+        color: var(--red);
+        font-size: 30px;
+        text-shadow: none;
+    }
+    .booking-form-error {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        color: var(--red);
+        font-size: 20px;
+        text-shadow: none;
+    }
+    .save-booking-button {
+        color: var(--text-color);
+        cursor: pointer;
+        font-size: 20px;
+        border: none;
+        border-radius: 10px;
+        width: 200px;
+        height: 50px;
+        margin-top: 25px;
+        background-color: var(--dark-blue);
+        box-shadow: var(--box-shadow-dark-blue-surround);
+    }
+    .save-booking-button:hover {
+        background-color: var(--light-blue);
+        box-shadow: var(--box-shadow-light-blue-surround);
+    }
+    .booking-total-price {
+        margin-top: 30px;
+    }
+    @media (max-width: 1500px) {
+        .booking-form-page {
+            width: 80%;
+        }
+    }
+    @media (max-width: 1300px) {
+        .booking-form-page {
+            width: 90%;
+        }
+    }
+    @media (max-width: 1100px) {
+        main.content {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        .booking-form-page {
+            width: 100%;
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+}

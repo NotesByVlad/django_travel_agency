@@ -1,12 +1,9 @@
 <!-- TEMPLATE FORM FOR REGISTER AND LOGIN -->
-
 {% extends "base.html" %}
+{% load static %}
 {% block title %}{{ form_type|title }}{% endblock %}
 {% block content %}
-{% load static %}
 <link rel="stylesheet" href="{% static 'accounts/style.css' %}">
-
-
 
 <div class="container-presets accounts-form-container">
     <h2 class="title1-presets">{{ form_type|title }}</h2>
@@ -106,7 +103,6 @@
     </form>
     <hr style="margin-bottom: 15px;">
 
-
     <div class="accounts-form-footer">
         {% if form_type == 'login' %}
             <p>Don't have an account?<br> <a href="{% url 'register' %}">Register here.</a></p>
@@ -116,21 +112,6 @@
     </div>
 </div>
 
-
-<script>
-function togglePassword(fieldId) {
-    const input = document.getElementById(fieldId);
-    const button = input.nextElementSibling;
-    if (input.type === "password") {
-        input.type = "text";
-        button.textContent = "👁️‍🗨️"; // change to "eye-slash"
-    } else {
-        input.type = "password";
-        button.textContent = "👁️"; // back to normal eye
-    }
-}
-</script>
-
-
+<script src="{% static 'accounts/accounts_form.js' %}"></script>
 
 {% endblock %}
