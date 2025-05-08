@@ -1,0 +1,7 @@
+Hi {{ user.username }},
+
+Thanks for signing up! Please confirm your email address to activate your account:
+
+http://{{ domain }}{% url 'activate' uid=uid token=token %}
+
+If you didn’t sign up, ignore this email.
