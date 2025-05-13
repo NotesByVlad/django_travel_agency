@@ -1,9 +1,12 @@
 asgiref==3.8.1
 colorama==0.4.6
-Django==4.1.1
+Django==5.2.1
+django-extensions==4.1
 exceptiongroup==1.2.2
 packaging==25.0
 pillow==11.2.1
+pydot==4.0.0
+pyparsing==3.2.3
 python-decouple==3.8
 sqlparse==0.5.3
 typing_extensions==4.13.2

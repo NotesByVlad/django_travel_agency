@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'accounts',
     'pages',
     'travel',
+    'django_extensions'
 ]
 
 MIDDLEWARE = [

@@ -135,3 +135,12 @@ This project uses **Python 3.10.0** and **Django 4.1.1** for the following reaso
    - Using 4.1.1 provides a balance between new features and reliability.  
 
 By sticking to **Python 3.10.0 + Django 4.1.1**, we ensure a stable, predictable development environment for this project.
+
+# Database Schema
+- **Was added with:**
+    - django-extensions
+    - pyparsing 
+    - pydot
+    ```bash
+    python manage.py graph_models -a -g > my_project.dot
+    ```
