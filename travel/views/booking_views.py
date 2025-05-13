@@ -97,6 +97,15 @@ class BookingDeleteView(LoginRequiredMixin, DeleteView):
     
 ##################################################################################
 
+
+
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
+from django.utils.html import strip_tags
+
+
+
 class PayBookingView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         booking = get_object_or_404(Booking, pk=kwargs['pk'], user=request.user)
@@ -106,7 +115,32 @@ class PayBookingView(LoginRequiredMixin, View):
             messages.success(request, "Invoice created successfully for your booking.")
         else:
             messages.info(request, "Invoice already exists for this booking.")
-            
+        # Context for email
+        context = {
+            'user': request.user,
+            'booking': booking,
+        }
+
+        # Render HTML email from template
+        subject = 'Your Booking Confirmation'
+        html_message = render_to_string('accounts/payment/booking_payment_confirmation.html', context)
+        plain_message = strip_tags(html_message)
+        from_email = settings.DEFAULT_FROM_EMAIL
+        to_email = [request.user.email]
+
+        try:
+            send_mail(
+                subject,
+                plain_message,
+                from_email,
+                to_email,
+                html_message=html_message,
+                fail_silently=False,
+            )
+            print("Email sent!", request.user.email)
+        except Exception as e:
+            print("Error sending email:", e)
+
         return redirect('user_profile', username=request.user.username)
     
 ##################################################################################
