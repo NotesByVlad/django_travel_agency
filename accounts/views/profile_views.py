@@ -4,6 +4,8 @@ from django.views.generic import DetailView
 from django.urls import reverse_lazy
 from django.shortcuts import redirect
 from accounts.services import get_user_booking_context
+from django.views.generic import UpdateView
+from accounts.forms import CustomUserForm
 
 class UserProfileView(LoginRequiredMixin, DetailView):
     model = CustomUser
@@ -33,3 +35,19 @@ class UserProfileView(LoginRequiredMixin, DetailView):
         context.update(booking_context_data)
 
         return context
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    form_class = CustomUserForm
+    template_name = 'accounts/profile/edit_profile.html'
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.get_object()
+        if user != request.user:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_success_url(self):
+        return reverse_lazy('user_profile', kwargs={'username': self.object.username})

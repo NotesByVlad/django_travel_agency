@@ -12,31 +12,29 @@ class Invoice(models.Model):
     # Booking related to invoice
     booking = models.OneToOneField(Booking,on_delete=models.SET_NULL, null=True, related_name='invoice')
 
+
+
+    def generate_invoice_number(self):
+        # Replace 'BKN' with 'INV' from booking number
+        if not self.booking or not self.booking.booking_number:
+            raise ValueError("Booking or booking_number is missing")
+
+        booking_number = self.booking.booking_number
+        invoice_count = Invoice.objects.count() + 1  # len of Invoice table
+
+        core = booking_number[3:]  # remove 'BKN'
+        return f"INV{invoice_count}{core}"
+    
     def save(self, *args, **kwargs):
+        if not self.invoice_number:
+            self.invoice_number = self.generate_invoice_number()
+
         super().save(*args, **kwargs)
 
-        if self.booking:
+        if self.booking and not self.booking.paid:
             self.booking.paid = True
             self.booking.save()
 
-    def generate_invoice_number(self):
-        # Get the first 3 characters of the city name
-        city_code = self.booking.trip.city.name[:3].upper()
-
-        # Get the latest invoice number for the same city and trip
-        latest_invoice = Invoice.objects.filter(booking__trip=self.booking.trip).order_by('-invoice_number').first()
-
-        # Get the last number in the sequence, or start at 1 if there are no invoices yet
-        if latest_invoice:
-            last_number = int(latest_invoice.invoice_number[-1])  # Assuming last character is the number
-            next_number = last_number + 1
-        else:
-            next_number = 1
-
-        # Create the new invoice number
-        invoice_number = f"INV{city_code}{next_number}"
-
-        return invoice_number
 
     def __str__(self):
         return f'Invoice {self.invoice_number}'

@@ -25,7 +25,7 @@ class BookingCreateView(LoginRequiredMixin, BookingContextMixin, CreateView):
     def form_valid(self, form):
         form.instance.user = self.request.user
         form.instance.trip = self.trip
-        messages.success(self.request, "Your booking was created successfully. You just need to pay it.")
+        messages.success(self.request, "Your booking was created successfully. You just need to pay it.", extra_tags="goto-pending")
 
         return super().form_valid(form)
     
@@ -57,7 +57,7 @@ class BookingUpdateView(UpdateView, BookingContextMixin):
         return super().dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
-        messages.success(self.request, "Your booking was updated successfully. You just need to pay it.")
+        messages.success(self.request, "Your booking was updated successfully. You just need to pay it.", extra_tags="goto-pending")
 
         return super().form_valid(form)
 
@@ -89,7 +89,7 @@ class BookingDeleteView(LoginRequiredMixin, DeleteView):
 
     def form_valid(self, form):
         self.object = self.get_object()
-        messages.success(self.request, "Your booking has been deleted successfully.")
+        messages.success(self.request, "Your booking has been deleted successfully.", extra_tags="delete-msg")
         return super().form_valid(form)
     
     def get_success_url(self):
@@ -103,7 +103,10 @@ class PayBookingView(LoginRequiredMixin, View):
 
         if not hasattr(booking, 'invoice'):
             Invoice.objects.create(booking=booking)
-
+            messages.success(request, "Invoice created successfully for your booking.")
+        else:
+            messages.info(request, "Invoice already exists for this booking.")
+            
         return redirect('user_profile', username=request.user.username)
     
 ##################################################################################

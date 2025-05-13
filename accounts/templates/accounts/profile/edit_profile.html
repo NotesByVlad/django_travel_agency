@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+    .edit-profile-page {
+        margin-top: 10rem;
+        width: 50%;
+        min-width: 25rem;
+        justify-self: center;
+        align-self: center;
+    }
+    .edit-profile-page h1 {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    .form-group input {
+        max-width: 50%;
+        margin-bottom: 2rem;
+    }
+    .form-group label {
+        font-size: 1.5rem;
+        margin-bottom: 10rem;
+        text-shadow: var(--text-shadow-crisp-black);
+    }
+    .edit-profile-page button {
+        font-size: 1.2rem;
+        box-shadow: var(--box-shadow-light-blue-surround);
+        transition: all 0.8s ease;
+    }
+    .edit-profile-page button:hover {
+        box-shadow: var(--box-shadow-dark-blue-surround);
+    }
+</style>
+<div class="edit-profile-page">
+
+    <div class="container-presets">
+        <h1 class="title1-presets">Edit Profile</h1>
+        <form method="post">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="id_name">First Name</label><br>
+                <input type="text" name="name" value="{{ form.name.value }}" class="input-presets" />
+            </div>
+            
+            <div class="form-group">
+                <label for="id_surname">Last Name</label><br>
+                <input type="text" name="surname" value="{{ form.surname.value }}" class="input-presets" />
+            </div>
+
+            <div class="form-group">
+                <label for="id_country">Country</label><br>
+                <input type="text" name="country" value="{{ form.country.value }}" class="input-presets" />
+            </div>
+            
+            <button type="submit" class="button-presets">Save Changes</button>
+            <a href="{% url 'user_profile' request.user.username %}">
+                <button class="button-presets">Back to Profile</button>
+            </a>
+        </form>
+    </div>
+</div>
+{% endblock %}
+    

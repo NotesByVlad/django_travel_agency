@@ -18,7 +18,7 @@ def get_user_booking_context(user):
     context_data['bookings'] = bookings
 
     # Logic for paid bookings
-    paid_bookings = Booking.objects.filter(user=user, paid=True)
+    paid_bookings = Booking.objects.filter(user=user, paid=True).select_related('invoice').order_by('-invoice__payment_date')
     for booking in paid_bookings:
         # Calculate the individual and total prices for this paid booking
         adult_price = booking.trip.calculate_adult_price(booking.tickets_adult)

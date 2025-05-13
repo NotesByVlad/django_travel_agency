@@ -11,6 +11,7 @@
         <h1 class="title1-presets booking-confirm-delete-title">Are you sure you want to delete<br> this booking?</h1>
         
         <div class="booking-confirm-delete-container">
+            <h2 class="booking-confirm-delete-item"><strong>Booking number</strong><br><span>{{ object.booking_number }}</span> </h2>
             <h2 class="booking-confirm-delete-item"><strong>Booking Date</strong><br><span>{{ object.booking_date }}</span> </h2>
             <h2 class="booking-confirm-delete-item"><strong>Price</strong><br> <span>${{ object.booking_price }}</span></h2>
             <h2 class="booking-confirm-delete-item"><strong>Trip</strong><br> <span>{{ object.trip }}<br>{{ object.trip.departure_date }} - {{ object.trip.return_date }}</span></h2>

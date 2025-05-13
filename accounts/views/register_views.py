@@ -48,4 +48,4 @@ class RegisterView(CreateView):
             fail_silently=False,
         )
 
-        return render(self.request, 'accounts/activation/check_your_email.html')  # Ask them to verify
+        return render(self.request, 'accounts/activation/check_your_email.html')

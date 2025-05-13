@@ -9,6 +9,8 @@
     --dark-blue: rgb(1, 83, 192);
     --red: rgb(200, 0, 0);
     --black:rgb(38, 38, 38);
+
+    --light-blue-transparent: rgba(0, 187, 255, 0.5);
     
     --text-shadow-black: 0 0 3px rgba(0, 0, 0, 1);
 
@@ -57,7 +59,7 @@
         flex-direction: column;
         overflow-x: hidden;
         flex:1;
-
+        scroll-behavior: smooth;
         background: var(--background-image) no-repeat center center fixed;
         background-size: cover; 
     }
@@ -67,6 +69,112 @@
         height: 100%;
     }
 }/* --- -- </TAGS> -- --- */
+
+/* DJANGO MESSAGES */
+@media (max-width: 999999999px) {
+    /* .custom-message {
+        border: 1px solid var(--dark-blue);
+        border-radius: 5px;
+        background-color: var(--light-blue);
+        color: var(--dark-blue);
+        font-size: 25px;
+        box-shadow: var(--box-shadow-light-blue-surround);
+        padding: 1em;
+        margin-bottom: 1em;
+        position: relative;
+    } */
+    .messages {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .message-box {
+        background-color: var(--light-blue-transparent); /* var(--light-blue) with opacity */
+        border: 1px solid var(--dark-blue);
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        width: 100%;
+        max-width: 400px;
+        text-align: center;
+        box-shadow: var(--box-shadow);
+    }
+
+    .message-text {
+        margin-bottom: 10px;
+        color: var(--dark-blue);
+        font-size: 16px;
+    }
+
+    .ok-btn {
+        background-color: transparent;
+        border: 2px solid var(--dark-blue);
+        color: var(--dark-blue);
+        padding: 6px 14px;
+        border-radius: 4px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.8s ease;
+    }
+
+    .ok-btn:hover {
+        background-color: var(--dark-blue);
+        color: var(--text-color);
+    }
+    
+    .delete-style {
+        border-color: var(--red);
+        box-shadow: -2px 0 10px rgb(200, 0, 0, 0.5);
+    }
+
+    .delete-style .message-text {
+        color: var(--red);
+    }
+
+    .delete-btn {
+        border-color: var(--red);
+        color: var(--red);
+    }
+
+    .delete-btn:hover {
+        background-color: var(--red);
+        color: var(--text-color);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 
 /* ------------------------------------------------ */
 /* <PRESETS> */
@@ -92,9 +200,11 @@
         margin-bottom: 1.5rem;
         padding: 0.7rem 1.5rem;
         font-size: 1rem;
+        transition: all 0.8s ease;
     }
     .button-presets:hover {
         background-color: var(--dark-blue);
+        box-shadow: var(--box-shadow-dark-blue-surround);
     }
     /* <FORM SPECIFIC PRESETS> */
     .input-presets {

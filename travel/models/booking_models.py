@@ -50,6 +50,21 @@ class Booking(models.Model):
 
     paid = models.BooleanField(default=False)
 
+    booking_number = models.CharField(max_length=20, unique=True, blank=True, null=True)
+
+    def generate_booking_number(self):
+        city_code = self.trip.city.name[:3].upper()
+        latest_booking = Booking.objects.all().order_by('-booking_number').first()
+
+        if latest_booking and latest_booking.booking_number:
+            # Slice to get the numeric part — assume 'BKN{city}{number}'
+            last_number = int(latest_booking.booking_number[6:])
+            next_number = last_number + 1
+        else:
+            next_number = 1
+
+        return f"BKN{city_code}{next_number}"
+
     def total_tickets(self):
         return self.tickets_adult + self.tickets_child
 
@@ -169,6 +184,9 @@ class Booking(models.Model):
         self.total_cost()
 
         if not self.pk:
+            if not self.booking_number:
+                self.booking_number = self.generate_booking_number()
+
             self.add_tickets()
         else:
             old = Booking.objects.get(pk=self.pk)

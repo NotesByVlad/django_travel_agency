@@ -106,6 +106,7 @@
     <div class="accounts-form-footer">
         {% if form_type == 'login' %}
             <p>Don't have an account?<br> <a href="{% url 'register' %}">Register here.</a></p>
+            <hr class="divider-presets">
             <p>Forgot your password?<br> <a href="{% url 'password_reset' %}">Reset Password</a></p>
             {% else %}
             <p>Already have an account?<br> <a href="{% url 'login' %}">Log in here.</a></p>

@@ -3,6 +3,8 @@ from django.contrib.auth.tokens import default_token_generator
 from django.shortcuts import render
 from django.views import View
 from accounts.models import CustomUser
+from django.contrib import messages
+from django.shortcuts import redirect
 
 class ActivateAccountView(View):
     def get(self, request, uid, token):
@@ -14,10 +16,10 @@ class ActivateAccountView(View):
             user = None
 
         if user is not None and default_token_generator.check_token(user, token):
-            # If the token is valid, activate the user
             user.is_active = True
             user.save()
-            return render(request, 'accounts/activation/activation_success.html')
+            messages.success(request, "Your account has been activated. You can now log in.")
+            return redirect('login')
         else:
-            # Invalid or expired token
-            return render(request, 'accounts/activation/activation_invalid.html')
+            messages.error(request, "Activation link is invalid or has expired.")
+            return redirect('register')

@@ -206,6 +206,29 @@
         </svg>
     </div>
 
+
+    <!-- ↓↓↓ MESSAGES ↓↓↓ -->
+    {% if messages %}
+    <div class="messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} message-box {% if 'delete-msg' in message.tags %}delete-style{% endif %}">
+            <div class="message-text">{{ message }}</div>
+
+            {% if 'goto-pending' in message.tags %}
+            <a href="#pending-bookings">
+                <button class="ok-btn {% if 'delete-msg' in message.tags %}delete-btn{% endif %}">Go to Pending Bookings</button>
+            </a>
+            {% else %}
+            <button class="ok-btn {% if 'delete-msg' in message.tags %}delete-btn{% endif %}" onclick="this.parentElement.style.display='none';">OK</button>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+
+
     <!-- ↓↓↓index↓↓↓ -->
     <main class="content">
         {% block content %}
