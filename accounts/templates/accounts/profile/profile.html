@@ -26,9 +26,13 @@
         <div class="account-info-inner-container">
             <!-- <PROFILE INFO> -->
             <div class="account-info-profile-container">
-
-                <div class="profile-picture"></div>
-
+                <div class="profile-picture-container">
+                    <div class="profile-picture"></div>
+                    <a href="{% url 'edit_profile' profile_user.username %}">
+                        <button class="button-presets">Edit Profile</button>
+                    </a>
+                </div>
+                    
                 <div class="profile-item-container">
 
                     <hr class="divider-presets">
@@ -41,9 +45,7 @@
                     
                 </div>
 
-                <a href="{% url 'edit_profile' profile_user.username %}">
-                    <button class="button-presets">Edit Profile</button>
-                </a>
+
                 
             </div><!-- </PROFILE INFO> -->
 
