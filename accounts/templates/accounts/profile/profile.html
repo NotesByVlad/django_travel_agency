@@ -10,16 +10,7 @@
     <div class="container-presets centered-container account-info-container">
         <h2 class="title1-presets">{{ profile_user.username.title }}'s Page</h2>
 
-        <!-- <MESSAGES> -->
-        <!-- {% if messages %}
-        {% for message in messages %}
-        <div class="custom-message {{ message.tags }}" role="alert">
-            <p>{{ message }}</p>
-            <button class="dismiss-btn" onclick="this.parentElement.style.display='none';">OK</button>
-        </div>
-        {% endfor %}
-        {% endif %} -->
-        <!-- </MESSAGES> -->
+
         
         
 
@@ -28,20 +19,21 @@
             <div class="account-info-profile-container">
                 <div class="profile-picture-container">
                     <div class="profile-picture"></div>
+
                     <a href="{% url 'edit_profile' profile_user.username %}">
                         <button class="button-presets">Edit Profile</button>
                     </a>
                 </div>
+                <hr class="divider-presets">
                     
                 <div class="profile-item-container">
 
-                    <hr class="divider-presets">
-                    <p class="profile-item">Username: {{ profile_user.username.title }}</p>
-                    <p class="profile-item">Email: {{ profile_user.email }}</p>
-                    <p class="profile-item">Name: {{ profile_user.name.title }}</p>
-                    <p class="profile-item">Surname: {{ profile_user.surname.title }}</p>
-                    <p class="profile-item">Country: {{ profile_user.country.title }}</p>
-                    <hr class="divider-presets">
+                    <p class="profile-item"><strong>Username</strong> {{ profile_user.username.title }}</p>
+                    <p class="profile-item"><strong>Email</strong> {{ profile_user.email }}</p>
+                    <p class="profile-item"><strong>Name</strong> {{ profile_user.name.title }}</p>
+                    <p class="profile-item"><strong>Surname</strong> {{ profile_user.surname.title }}</p>
+                    <p class="profile-item"><strong>Country</strong> {{ profile_user.country.title }}</p>
+                    <p class="profile-item"><strong>City</strong> city???</p>
                     
                 </div>
 
