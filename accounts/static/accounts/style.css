@@ -153,6 +153,10 @@
         margin: 0.2rem;
         height: 35rem;
     }
+    .booking-card p,
+    .invoice-card p {
+        font-size: var(--font-size-txt);
+    }
 
     @media (max-width: 1200px) {
         .account-info-inner-container {
@@ -239,3 +243,38 @@
 
 
 /* </PROFILE PAGE> */
+
+
+
+/* <EDIT PROFILE PAGE> */
+@media (max-width: 9999999999px) {
+
+    .edit-profile-page {
+        margin-top: 10rem;
+        width: 50%;
+        min-width: 25rem;
+        justify-self: center;
+        align-self: center;
+    }
+    .edit-profile-page h1 {
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    .form-group input {
+        max-width: 50%;
+        margin-bottom: 2rem;
+    }
+
+    .form-group select {
+        max-width: 50%;
+        margin-bottom: 2rem;
+    }
+    .edit-profile-page button {
+        font-size: 1.2rem;
+        box-shadow: var(--box-shadow-light-blue-surround);
+        transition: all 0.8s ease;
+    }
+    .edit-profile-page button:hover {
+        box-shadow: var(--box-shadow-dark-blue-surround);
+    }
+}/* </EDIT PROFILE PAGE> */

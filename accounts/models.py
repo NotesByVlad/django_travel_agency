@@ -2,7 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.core.validators import RegexValidator, EmailValidator
 from django.core.exceptions import ValidationError
 from django.db import models
+from django import forms
 
+from travel.models import Country, City
 
 username_validator = RegexValidator(
     regex=r'^[A-Za-z][A-Za-z0-9]{2,19}$',
@@ -27,8 +29,24 @@ class CustomUser(AbstractUser):
                                               blank=True)
     
     name = models.CharField(max_length=50, blank=True, help_text="First name of the user")
-    surname = models.CharField(max_length=50, blank=True, help_text="Last name of the user")
-    country = models.CharField(max_length=50, blank=True, help_text="Country of the user")
+    surname = models.CharField(max_length=50, null=True, blank=True, help_text="Last name of the user")
+    country = models.ForeignKey(
+        Country,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,  # Adjust this behavior according to your needs
+        related_name="users",
+        help_text="Country of the user"
+    )
+    city = models.ForeignKey(
+        City,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,  # Adjust this behavior according to your needs
+        related_name="users",
+        help_text="City of the user"
+    )
+    
     
     def save(self, *args, **kwargs):
         if self.username:

@@ -62,11 +62,12 @@
 
                 <form method="GET" action="{% url 'trip_search' %}" id="modal-search-form">
                     {% csrf_token %}
-                    <div id="modal-error-message" style="color: red; display: none;"></div>
+                    <!-- <div id="modal-error-message" style="color: red; display: none;"></div> -->
 
                     <h1 class="modal-search-title">Search</h1>
 
-                    <h2 style="color: white; margin-top: 20px;">Location</h2>
+                    <h2 class="label-presets">Location</h2>
+                    
                     <div class="modal-search-section">
                         <!-- Continent Select -->
                         <label for="{{ trip_search_form.continent.id_for_label }}" class="hidden-label">Continent:</label>
@@ -95,7 +96,7 @@
                         {% endif %}
                     </div>
                             
-                    <h2 style="color: white; margin-top: 20px;">Dates</h2>
+                    <h2 class="label-presets">Dates</h2>
                     <div class="modal-search-section inner-container-presets">
                         <!-- Departure Date -->
                         <label for="{{ trip_search_form.departure_date.id_for_label }}">Departure</label>
@@ -114,7 +115,7 @@
                         {% endif %}
                     </div>
 
-                    <h2 style="color: white; margin-top: 20px;">Tickets</h2>
+                    <h2 class="label-presets">Tickets</h2>
                     <div class="modal-search-section inner-container-presets">
                         <!-- Adult Tickets -->
                         <label for="{{ trip_search_form.tickets_adults.id_for_label }}">Adults</label>
@@ -133,7 +134,7 @@
                         {% endif %}
                     </div>
 
-                    <h2 style="color: white; margin-top: 20px;">Flight Tickets</h2>
+                    <h2 class="label-presets">Flight Tickets</h2>
                     <div class="modal-search-section inner-container-presets">
                         <!-- Wants Flight -->
                         <label for="{{ trip_search_form.wants_flight.id_for_label }}">Fly with us?</label>
@@ -142,6 +143,9 @@
                             <div class="error">{{ trip_search_form.wants_flight.errors }}</div>
                         {% endif %}
                     </div>
+
+                    <!-- ERROR -->
+                    <div class="modal-search-section" id="modal-error-message" style="color: red; display: none;"></div>
 
                     <div class="modal-search-section inner-container-presets">
                         <!-- From Airport -->
@@ -152,7 +156,7 @@
                         {% endif %}
                     </div>
                            
-                    <h2 style="color: white; margin-top: 20px;">Budget</h2>
+                    <h2 class="label-presets">Budget</h2>
                     <div class="modal-search-section "> 
                         <!-- Budget -->
                         <label for="{{ trip_search_form.budget.id_for_label }}" class="hidden-label">Budget:</label>

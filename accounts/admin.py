@@ -34,7 +34,7 @@ class CustomUserAdmin(UserAdmin):
     # You can simplify this fieldsets to include only the essential fields
     # while still inheriting from UserAdmin for standard user management.
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
+        (None, {'fields': ('username', 'password', 'country')}),
         (('Personal info'), {'fields': ('email',)}), # Only include email here
         (('Permissions'), {'fields': (
             'is_active',

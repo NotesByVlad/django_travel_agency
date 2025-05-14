@@ -18,11 +18,11 @@ class CustomUserCreationForm(UserCreationForm):
 from django.forms import ModelForm
 from .models import CustomUser
 from django import forms
-
+from travel.models import Country, City
 class CustomUserForm(ModelForm):
     class Meta:
         model = CustomUser
-        fields = ['name', 'surname', 'country']
+        fields = ['name', 'surname', 'country', 'city']
 
     name = forms.CharField(
         max_length=100,
@@ -39,11 +39,16 @@ class CustomUserForm(ModelForm):
         })
     )
 
-    country = forms.CharField(
-        max_length=100,
-        widget=forms.TextInput(attrs={
-            'autocomplete': 'country'
-        })
+    country = forms.ModelChoiceField(
+        queryset=Country.objects.all(),
+        empty_label="Select a country",
+        required=False
+    )
+
+    city = forms.ModelChoiceField(
+        queryset=City.objects.all(),
+        empty_label="Select a city",
+        required=False
     )
 
     # When initializing the form, we will populate the fields with data from the user

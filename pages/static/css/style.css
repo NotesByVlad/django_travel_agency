@@ -37,6 +37,14 @@
                         -1px  1px 0 black,
                         1px  1px 0 black;
 
+    /* title1-presets */
+    --font-size-1: 3rem;
+    /* medium titles */
+    --font-size-txt: 1rem; 
+
+    --font-size-label: 1.5rem; 
+    --font-size-input: ;            
+
 }
 /* --- --- <TAGS> --- --- */
 @media (max-width: 999999px) {
@@ -143,37 +151,6 @@
         color: var(--text-color);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 /* ------------------------------------------------ */
@@ -220,9 +197,10 @@
         box-shadow: 0 0 10px rgba(0, 150, 255, 0.8);
     }
     .label-presets {
-        font-size: 20px;
+        color: var(--text-color);
+        font-size: 1.5rem;
         display: block;
-        margin-bottom: 0.5rem;
+        /* margin-bottom: 0.5rem; */
         text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
     }
     .select-presets { /* TODO */
@@ -235,7 +213,7 @@
     }
     /* </FORM SPECIFIC PRESETS> */
     .title1-presets {
-        font-size: 45px;
+        font-size: var(--font-size-1);    /*45px;*/
         margin-bottom: 20px;
         text-shadow: var(--text-shadow-layered-black);
     }
@@ -531,7 +509,7 @@
         }
 
         .modal-search-section label {
-            font-size: 20px;
+            font-size: var(--font-size-label);
             display: block;
             margin-bottom: 0.5rem;
             text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
