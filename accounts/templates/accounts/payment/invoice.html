@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 40px; }
+        h1 { color: #2C3E50; }
+        .info { margin-bottom: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; }
+        th { background-color: #f4f4f4; }
+    </style>
+</head>
+<body>
+    <h1>Invoice</h1>
+    <div class="info">
+        <p><strong>Invoice Number:</strong> {{ booking.invoice.invoice_number }}</p>
+        <p><strong>Payment Date:</strong> {{ booking.invoice.payment_date }}</p>
+        <p><strong>Booking Number:</strong> {{ booking.booking_number }}</p>
+        <p><strong>Total Price:</strong> ${{ booking.booking_price }}</p>
+    </div>
+</body>
+</html>

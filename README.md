@@ -141,6 +141,13 @@ By sticking to **Python 3.10.0 + Django 4.1.1**, we ensure a stable, predictable
     - django-extensions
     - pyparsing 
     - pydot
+
+- **Generate new:**
+    - Type in terminal:
     ```bash
     python manage.py graph_models -a -g > my_project.dot
     ```
+    - Copy code from `my_project.dot` file
+    - Go to and paste the code:
+    https://dreampuf.github.io/GraphvizOnline/
+   

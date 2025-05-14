@@ -54,16 +54,24 @@ class Booking(models.Model):
 
     def generate_booking_number(self):
         city_code = self.trip.city.name[:3].upper()
-        latest_booking = Booking.objects.all().order_by('-booking_number').first()
+        prefix = f"BKN{city_code}"
 
-        if latest_booking and latest_booking.booking_number:
-            # Slice to get the numeric part — assume 'BKN{city}{number}'
-            last_number = int(latest_booking.booking_number[6:])
-            next_number = last_number + 1
-        else:
-            next_number = 1
+        # Get all booking numbers for this city
+        existing_numbers = (
+            Booking.objects
+            .filter(booking_number__startswith=prefix)
+            .values_list('booking_number', flat=True)
+        )
 
-        return f"BKN{city_code}{next_number}"
+        # Extract and convert suffixes to integers
+        suffixes = []
+        for bn in existing_numbers:
+            suffix = bn[len(prefix):]
+            if suffix.isdigit():
+                suffixes.append(int(suffix))
+
+        next_number = max(suffixes, default=0) + 1
+        return f"{prefix}{next_number}"
 
     def total_tickets(self):
         return self.tickets_adult + self.tickets_child

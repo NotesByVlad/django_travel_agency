@@ -99,12 +99,18 @@ class BookingDeleteView(LoginRequiredMixin, DeleteView):
 
 
 
+from io import BytesIO
+from reportlab.pdfgen import canvas
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
-from django.conf import settings
 from django.utils.html import strip_tags
-
-
+from django.conf import settings
+from django.core.mail import EmailMessage
+from travel.models import Booking, Invoice
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import View
+from django.contrib import messages
 
 class PayBookingView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
@@ -115,6 +121,10 @@ class PayBookingView(LoginRequiredMixin, View):
             messages.success(request, "Invoice created successfully for your booking.")
         else:
             messages.info(request, "Invoice already exists for this booking.")
+
+        # Generate the PDF
+        pdf_buffer = generate_pdf(booking)
+
         # Context for email
         context = {
             'user': request.user,
@@ -128,22 +138,60 @@ class PayBookingView(LoginRequiredMixin, View):
         from_email = settings.DEFAULT_FROM_EMAIL
         to_email = [request.user.email]
 
+        # Prepare email with PDF attachment
+        email = EmailMessage(
+            subject,
+            plain_message,
+            from_email,
+            to_email,
+        )
+        email.attach('invoice.pdf', pdf_buffer.read(), 'application/pdf')
+
         try:
-            send_mail(
-                subject,
-                plain_message,
-                from_email,
-                to_email,
-                html_message=html_message,
-                fail_silently=False,
-            )
-            print("Email sent!", request.user.email)
+            email.send(fail_silently=False)
+            print("Email sent to:", request.user.email)
         except Exception as e:
             print("Error sending email:", e)
 
         return redirect('user_profile', username=request.user.username)
     
 ##################################################################################
+
+
+
+
+
+def generate_pdf(booking):
+    buffer = BytesIO()
+    p = canvas.Canvas(buffer)
+    p.drawString(100, 800, f"Invoice for Booking #{booking.booking_number}")
+    p.drawString(100, 780, f"User: {booking.user.username}")
+    p.drawString(100, 760, f"Total Price: ${booking.booking_price}")
+    p.drawString(100, 740, f"Payment Date: {booking.invoice.payment_date if booking.invoice else 'N/A'}")
+    p.drawString(100, 720, f"Invoice Number: {booking.invoice.invoice_number if booking.invoice else 'N/A'}")
+    
+    p.showPage()
+    p.save()
+    buffer.seek(0)
+    return buffer
+
+
+
+
+
+
+##################################################################################
+
+
+
+
+
+
+
+
+
+
+
 
 
 
