@@ -1,0 +1,92 @@
+.contact-us-container {
+    align-self: center;
+    justify-self: center;
+    padding: 2rem;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 3rem;
+    width: 60%;
+}
+.contact-us-form {
+    margin-top: 3rem;
+    padding: 3rem;
+}
+.contact-us-form label {
+    font-size: 1.5rem;
+    text-shadow: var(--text-shadow-crisp-black);
+}
+.contact-us-form input,
+.contact-us-form textarea {
+    font-size: 1.5rem;
+    margin: 10px 0;
+    padding: 0.5rem;
+    outline: none;
+    border: none;
+    border-radius: 0.5rem;
+}
+.contact-us-form input {
+    width: 15rem;
+    height: 2rem;
+}
+.contact-us-form textarea {
+
+    max-width: 40rem;
+    max-height: 25rem;
+}
+
+.contact-us-form input:focus,
+.contact-us-form textarea:focus {
+    box-shadow: var(--box-shadow-light-blue-surround);
+}
+
+.contact-us-form-button {
+    margin-top: 2rem;
+    font-size: 1.5rem;        
+}
+.contact-us-messages-container {
+    align-self: center;
+    justify-self: center;
+
+    margin-bottom: 3rem;
+    width: 60%;
+}
+.contact-us-messages-container-message {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    justify-self: center;
+    align-self: center;
+    max-width: 50%;
+    text-align: justify;
+    
+}
+.invert-container {
+    margin: 30px 15px 30px 0;
+    border: 1px solid var(--text-color);
+    border-radius: 10px;
+    box-shadow:
+        inset 0 0 10px rgba(0,0,0,0.5),
+        inset 0 0 20px rgba(0,0,0,0.2);
+}
+.contact-us-top-message {
+    font-size: 3rem;
+    color: var(--light-blue);
+    text-shadow: var(--text-shadow-layered-black);
+}
+.contact-us-user-message,
+.contact-us-admin-reply {
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid var(--text-color)
+}
+.contact-us-user-message {
+    background-color: var(--light-blue);
+    justify-self: flex-start;
+}
+.contact-us-admin-reply {
+    background-color: var(--dark-blue);
+    justify-self:left;
+}

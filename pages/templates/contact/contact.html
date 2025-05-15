@@ -1,82 +1,10 @@
 {% extends "base.html" %}
-{% load static %}
 
 {% block title %}Contact Page{% endblock %}
 
 {% block content %}
-
-<style>
-    .contact-us-container {
-        padding: 2rem;
-        justify-content: center;
-        align-items: center;
-    }
-    .contact-us-form {
-        margin-top: 3rem;
-        padding: 3rem;
-    }
-    .contact-us-form label {
-        font-size: 1.5rem;
-        text-shadow: var(--text-shadow-crisp-black);
-    }
-    .contact-us-form input,
-    .contact-us-form textarea {
-        /* justify-content: center;
-        align-items: center; */
-        font-size: 1.5rem;
-        margin: 10px 0;
-        padding: 0.5rem;
-        outline: none;
-        border: none;
-        border-radius: 0.5rem;
-    }
-    .contact-us-form input {
-        width: 15rem;
-        height: 2rem;
-    }
-    .contact-us-form textarea {
-
-        max-width: 40rem;
-        max-height: 25rem;
-    }
-
-    .contact-us-form input:focus,
-    .contact-us-form textarea:focus {
-        box-shadow: var(--box-shadow-light-blue-surround);
-    }
-
-    .contact-us-form-button {
-        margin-top: 2rem;
-        font-size: 1.5rem;        
-    }
-    /* .contact-us-messages-container {
-       
-
-    } */
-
-    .contact-us-messages-container-message {
-        margin-top: 2rem;
-        margin-bottom: 2rem;
-        padding-left: 5rem;
-        padding-right: 5rem;
-        padding-top: 2rem;
-        padding-bottom: 1rem;
-        justify-self: center;
-        align-self: center;
-        max-width: 50%;
-        
-    }
-    .contact-us-top-message {
-        font-size: 3rem;
-        color: var(--light-blue);
-        text-shadow: var(--text-shadow-layered-black);
-    }
-
-
-</style>
-
-
-
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/pages/contact_us.css' %}">
 
 <div class="container-presets contact-us-container">
     <h1 class="title1-presets">Contact Us</h1>
@@ -139,44 +67,55 @@
         
     </div>
 
-    <!-- PREVIOUS MESSAGES -->
-    <div class="contact-us-messages-container">
-        {% if user_messages %}
-          <h2>Your Previous Messages</h2>
-          <ul>
-            {% for msg in user_messages %}
-              <div class="inner-container-presets contact-us-messages-container-message">
-                <li>
-                  <h3 class="contact-us-messages-container-message-username">
-                    {{ msg.name }}
-                  </h3><br>
-      
-                  <p class="contact-us-messages-container-message-message">
-                    {{ msg.message|linebreaks }}
-                  </p><br>
-                  
-      
-                  <small>Sent: {{ msg.created_at|date:"Y-m-d H:i" }}</small>
-      
-                  {% if msg.replied and msg.reply_message %}
-                  <hr class="divider-presets">
-                    <div class="contact-us-admin-reply">
-                      <strong>Reply from django-travel</strong><br>
-                      <p>{{ msg.reply_message|linebreaks }}</p>
-                      <small>Replied: {{ msg.replied_at|date:"Y-m-d H:i" }}</small>
-                    </div>
-                  {% endif %}
-                </li>
-              </div>
-            {% endfor %}
-          </ul>
-        {% else %}
-          <p>You haven't sent any messages yet.</p>
-        {% endif %}
-    </div>
 
 
 
 
 </div>
+
+
+
+<!-- PREVIOUS MESSAGES -->
+{% if user_messages %}
+    <div class="container-presets contact-us-messages-container">
+        <h1 class="title1-presets">Messages</h1>
+        <ul>
+        {% for msg in user_messages %}
+            <div class="invert-container contact-us-messages-container-message">
+            <li>
+                <div class="contact-us-user-message">
+                    <h3 class="messages-item">
+                    {{ msg.name }}
+                    </h3><br>
+        
+                    <p class="messages-item">
+                    {{ msg.message|linebreaks }}
+                    </p><br>
+                </div>
+                <small class="messages-item">Sent: {{ msg.created_at|date:"Y-m-d H:i" }}</small>
+                    
+        
+        
+
+                {% if msg.replied and msg.reply_message %}
+
+                <hr class="divider-presets">
+                <div class="contact-us-admin-reply">
+                    
+                    <p>{{ msg.reply_message|linebreaks }}</p>
+                </div>
+                <small>Django-travel {{ msg.replied_at|date:"Y-m-d H:i" }}</small><br>
+                {% endif %}
+            </li>
+            </div>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't sent any messages yet.</p>
+    </div>
+{% endif %}
+
+
+
+
 {% endblock %}
