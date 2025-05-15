@@ -32,8 +32,11 @@
                     <p class="profile-item"><strong>Email</strong> {{ profile_user.email }}</p>
                     <p class="profile-item"><strong>Name</strong> {{ profile_user.name.title }}</p>
                     <p class="profile-item"><strong>Surname</strong> {{ profile_user.surname.title }}</p>
-                    <p class="profile-item"><strong>Country</strong> {{ profile_user.country.title }}</p>
-                    <p class="profile-item"><strong>City</strong> city???</p>
+
+                    <p class="profile-item"><strong>Country</strong> {{ profile_user.country }}</p>
+                    <p class="profile-item"><strong>City</strong> {{ profile_user.city }}</p>
+                    {% if profile_user.country %}
+                    {% endif %}
                     
                 </div>
 

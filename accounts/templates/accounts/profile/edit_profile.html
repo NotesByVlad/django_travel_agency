@@ -12,21 +12,21 @@
             {% csrf_token %}
             
             <div class="form-group">
-                <label for="id_name" class="label-presets">First Name</label><br>
-                <input id="id_name" type="text" name="name" value="{{ form.name.value }}" class="input-presets" autocomplete="given-name" />
+                <label for="id_name_profile" class="label-presets">First Name</label><br>
+                <input id="id_name_profile" type="text" name="name" value="{{ form.name.value }}" class="input-presets" autocomplete="given-name" />
             </div>
 
             <div class="form-group">
-                <label for="id_surname" class="label-presets">Last Name</label><br>
-                <input id="id_surname" type="text" name="surname" value="{{ form.surname.value }}" class="input-presets" autocomplete="family-name" />
+                <label for="id_surname_profile" class="label-presets">Last Name</label><br>
+                <input id="id_surname_profile" type="text" name="surname" value="{{ form.surname.value }}" class="input-presets" autocomplete="family-name" />
             </div>
 
             <div class="form-group">
-                <label for="id_country" class="label-presets">Country</label><br>
-                <select id="id_country" name="country" class="input-presets">
+                <label for="id_country_profile" class="label-presets">Country</label><br>
+                <select id="id_country_profile" name="country" class="input-presets">
                     <option value="">Select a country</option>
                     {% for country in form.country.field.queryset %}
-                        <option value="{{ country.pk }}" {% if form.country.value == country.pk|stringformat:"s" %}selected{% endif %}>
+                        <option value="{{ country.pk }}" {% if form.country.value|stringformat:"s" == country.pk|stringformat:"s" %}selected{% endif %}>
                             {{ country }}
                         </option>
                     {% endfor %}
@@ -34,16 +34,19 @@
             </div>
 
             <div class="form-group">
-                <label for="id_city" class="label-presets">City</label><br>
-                <select id="id_city" name="city" class="input-presets">
-                    <option value="">Select a city</option>
-                    {% for city in form.city.field.queryset %}
-                        <option value="{{ city.pk }}" {% if form.city.value == city.pk|stringformat:"s" %}selected{% endif %}>
-                            {{ city }}
-                        </option>
+                <label for="id_city_profile" class="label-presets">City</label><br>
+                <select name="city" id="id_city_profile" class="input-presets">
+                <option value="">Select a city</option>
+                {% if form.fields.city.queryset %}
+                    {% for city in form.fields.city.queryset %}
+                    <option value="{{ city.pk }}" {% if form.city.value|stringformat:"s" == city.pk|stringformat:"s" %}selected{% endif %}>
+                        {{ city.name }}
+                    </option>
                     {% endfor %}
+                {% endif %}
                 </select>
             </div>
+
 
             
             <button type="submit" class="button-presets">Save Changes</button>
@@ -53,5 +56,56 @@
         </form>
     </div>
 </div>
+<!-- <script>
+  const loadCitiesUrl = "{% url 'travel_ajax:load_cities' %}";  // Or use your actual URL name
+</script> -->
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const countrySelect = document.getElementById("id_country_profile");
+    const citySelect = document.getElementById("id_city_profile");
+    const loadCitiesUrl = "{% url 'travel_ajax:load_cities' %}";
+
+    // Get selected city directly from <select>
+    const selectedCityId = citySelect.value;
+
+    function fetchCities(countryId, selectedCityId = null) {
+      citySelect.innerHTML = '<option value="">Select a city</option>';
+
+      if (!countryId) return;
+
+      fetch(`${loadCitiesUrl}?country_id=${countryId}`)
+        .then(response => response.json())
+        .then(data => {
+          data.forEach(city => {
+            const option = document.createElement("option");
+            option.value = city.id;
+            option.textContent = city.name;
+
+            if (selectedCityId && city.id == selectedCityId) {
+              option.selected = true;
+            }
+
+            citySelect.appendChild(option);
+          });
+        })
+        .catch(error => {
+          console.error('Error loading cities:', error);
+        });
+    }
+
+    // On page load: if country is selected, fetch cities and preserve city selection
+    if (countrySelect.value) {
+      fetchCities(countrySelect.value, selectedCityId);
+    }
+
+    // On change of country, fetch and update city list (no pre-selected city)
+    countrySelect.addEventListener("change", function () {
+      fetchCities(this.value);
+    });
+  });
+</script>
+
 {% endblock %}
+
+
     

@@ -51,13 +51,29 @@ class CustomUserForm(ModelForm):
         required=False
     )
 
-    # When initializing the form, we will populate the fields with data from the user
+    # When initializing the form, populate the fields with data from user
     def __init__(self, *args, **kwargs):
         user = kwargs.get('instance')
         super().__init__(*args, **kwargs)
 
-        # If the user instance exists, populate the fields with the user's data
+        # Set default city queryset to empty
+        self.fields['city'].queryset = City.objects.none()
+
+        # Handle POST request (country selection)
+        self.fields['city'].queryset = City.objects.none()
+
+        if 'country' in self.data:
+            try:
+                country_id = int(self.data.get('country'))
+                self.fields['city'].queryset = City.objects.filter(country_id=country_id)
+            except (ValueError, TypeError):
+                pass
+        elif user and user.country:
+            self.fields['city'].queryset = City.objects.filter(country=user.country)
+
+        # Populate other fields
         if user:
             self.fields['name'].initial = user.name
             self.fields['surname'].initial = user.surname
             self.fields['country'].initial = user.country
+            self.fields['city'].initial = user.city

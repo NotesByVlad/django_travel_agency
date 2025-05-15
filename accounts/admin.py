@@ -13,6 +13,7 @@ class CustomUserAdmin(UserAdmin):
         'name',
         'surname',
         'country',
+        'city',
         'is_active',
         'is_staff',
     )
